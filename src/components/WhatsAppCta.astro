@@ -13,7 +13,7 @@ const {
   mensaje,
   variant = "primary",
   label = "Cotizar por WhatsApp",
-  class: className,
+  class: customClass,
   ...rest
 } = Astro.props;
 ---
@@ -28,7 +28,7 @@ const {
       "h-14 rounded-sm bg-primary px-8 text-lg text-primary-foreground hover:bg-primary/85",
     variant === "secondary" &&
       "h-11 w-full rounded-sm border border-foreground/15 bg-foreground px-5 text-sm text-background hover:border-primary hover:bg-primary hover:text-primary-foreground",
-    className
+    customClass
   )}
   {...rest}
 >
