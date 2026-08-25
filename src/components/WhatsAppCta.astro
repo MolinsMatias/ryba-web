@@ -23,11 +23,11 @@ const {
   target="_blank"
   rel="noopener noreferrer"
   class={cn(
-    "group inline-flex items-center justify-center gap-2.5 font-display font-semibold tracking-wide uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+    "group inline-flex items-center justify-center gap-2.5 font-display font-semibold tracking-wide uppercase transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
     variant === "primary" &&
-      "h-14 rounded-sm bg-primary px-8 text-lg text-primary-foreground hover:bg-primary/85",
+      "h-14 rounded-sm bg-primary px-8 text-lg text-primary-foreground hover:bg-yellow-600 hover:-translate-y-1 hover:shadow-xl",
     variant === "secondary" &&
-      "h-11 w-full rounded-sm border border-foreground/15 bg-foreground px-5 text-sm text-background hover:border-primary hover:bg-primary hover:text-primary-foreground",
+      "h-11 w-full rounded-sm border border-foreground/15 bg-foreground px-5 text-sm text-background hover:border-primary hover:bg-primary hover:text-primary-foreground hover:-translate-y-0.5",
     customClass
   )}
   {...rest}

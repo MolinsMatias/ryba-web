@@ -8,7 +8,7 @@ interface Props {
 
 const {
   title = "RYBA SpA | Arriendo de Maquinaria Pesada, Venta y Servicios",
-  description = "RYBA SpA: arriendo de maquinaria pesada con operador, mantenimiento, montaje industrial y fletes. Cotiza tu equipo por WhatsApp en minutos.",
+  description = "Flota propia con respaldo técnico, traslado incluido y operadores certificados para minería, construcción e industria.",
 } = Astro.props;
 ---
 
@@ -28,7 +28,7 @@ const {
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="RYBA SpA | Arriendo de Maquinaria Pesada" />
-    <meta property="og:description" content="Equipos operativos, respaldo técnico y disponibilidad inmediata para tu obra o planta." />
+    <meta property="og:description" content={description} />
 
     <!-- Favicons -->
     <link rel="icon" href="/icon-light-32x32.png" media="(prefers-color-scheme: light)" />

@@ -10,7 +10,7 @@ const garantias = [
 
 <section id="inicio" class="relative isolate overflow-hidden bg-[#151515]">
   <img
-    src="/images/hero-maquinaria.png"
+    src="/images/hero-maquinaria.webp"
     alt="Excavadora y cargador frontal trabajando en una faena de movimiento de tierra"
     loading="eager"
     fetchpriority="high"
@@ -26,7 +26,7 @@ const garantias = [
     <!-- Barra superior con identidad -->
     <header class="flex items-center gap-4 py-6">
       <img
-        src="/images/ryba-logo-circular.jpeg"
+        src="/images/ryba-logo-circular.webp"
         alt="Logo de RYBA SpA"
         width="56"
         height="56"
@@ -47,14 +47,14 @@ const garantias = [
       <nav
         class="ml-auto hidden items-center gap-6 font-display text-sm tracking-widest text-secondary uppercase sm:flex"
       >
+        <a href="#catalogo" class="transition-colors hover:text-primary">
+          Catálogo
+        </a>
         <a href="#servicios" class="transition-colors hover:text-primary">
           Servicios
         </a>
         <a href="#nosotros" class="transition-colors hover:text-primary">
           Nosotros
-        </a>
-        <a href="#catalogo" class="transition-colors hover:text-primary">
-          Catálogo
         </a>
       </nav>
     </header>
@@ -89,8 +89,9 @@ const garantias = [
       </div>
     </div>
 
+    <!-- Barra de Confianza Responsiva (flex-col md:flex-row) en Lista Nativa -->
     <ul
-      class="flex flex-col gap-3 border-t border-background/15 py-6 text-sm text-secondary sm:flex-row sm:items-center sm:gap-8"
+      class="flex flex-col gap-3 border-t border-background/15 py-6 text-sm text-secondary md:flex-row md:items-center md:gap-8"
     >
       {
         garantias.map((item) => (
