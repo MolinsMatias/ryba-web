@@ -22,59 +22,30 @@ const garantias = [
   >
   </div>
 
-  <div class="relative mx-auto flex min-h-168 max-w-6xl flex-col px-6 lg:px-8">
-    <!-- Barra superior con identidad -->
-    <header class="flex items-center gap-4 py-6">
-      <img
-        src="/images/ryba-logo-circular.webp"
-        alt="Logo de RYBA SpA"
-        width="56"
-        height="56"
-        class="size-14 rounded-full ring-1 ring-primary/40 object-cover"
-      />
-      <div class="flex flex-col">
-        <span
-          class="font-display text-xl leading-none font-bold tracking-widest text-background uppercase"
-        >
-          RYBA SpA
-        </span>
-        <span
-          class="mt-1 text-[0.7rem] tracking-[0.18em] text-secondary uppercase"
-        >
-          Maquinaria confiable para proyectos rentables.
-        </span>
-      </div>
-      <nav
-        class="ml-auto hidden items-center gap-6 font-display text-sm tracking-widest text-secondary uppercase sm:flex"
-      >
-        <a href="#catalogo" class="transition-colors hover:text-primary">
-          Catálogo
-        </a>
-        <a href="#servicios" class="transition-colors hover:text-primary">
-          Servicios
-        </a>
-        <a href="#nosotros" class="transition-colors hover:text-primary">
-          Nosotros
-        </a>
-      </nav>
-    </header>
-
-    <div class="flex flex-1 flex-col justify-center py-16 lg:py-24">
+  <div
+    class="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-between px-6 pt-28 pb-8 sm:pt-32 md:pt-36 lg:px-8 lg:pt-36"
+  >
+    <div class="flex flex-1 flex-col justify-center py-8 lg:py-16">
+      <!-- Kicker: — ARRIENDO DE MAQUINARIA PESADA -->
       <div class="flex items-center gap-3">
-        <span aria-hidden="true" class="h-0.5 w-10 bg-primary"></span>
+        <span aria-hidden="true" class="h-0.5 w-8 bg-primary"></span>
         <span
-          class="font-display text-sm tracking-[0.22em] text-primary uppercase"
+          class="font-display text-sm tracking-[0.25em] text-primary uppercase font-semibold"
         >
           Arriendo de maquinaria pesada
         </span>
       </div>
 
+      <!-- Headline: MAQUINARIA PESADA OPERATIVA, EN FAENA CUANDO LA NECESITAS -->
       <h1
-        class="mt-6 max-w-3xl font-display text-5xl leading-[0.95] font-bold tracking-tight text-balance text-background uppercase sm:text-6xl lg:text-7xl"
+        class="mt-6 max-w-3xl font-display text-5xl leading-[0.92] font-bold tracking-tight text-background uppercase sm:text-6xl lg:text-7xl"
       >
-        Maquinaria pesada operativa, en faena cuando la necesitas
+        Maquinaria pesada<br class="hidden sm:inline" />
+        operativa, en faena<br class="hidden sm:inline" />
+        cuando la necesitas
       </h1>
 
+      <!-- Texto descriptivo -->
       <p
         class="mt-6 max-w-xl text-lg leading-relaxed text-secondary text-pretty"
       >
@@ -82,14 +53,16 @@ const garantias = [
         certificados para minería, construcción e industria.
       </p>
 
+      <!-- Botón CTA principal de WhatsApp -->
       <div class="mt-10">
         <WhatsAppCta
           mensaje="Hola RYBA SpA, necesito cotizar el arriendo de maquinaria. ¿Me pueden ayudar?"
+          label="Cotizar por WhatsApp"
         />
       </div>
     </div>
 
-    <!-- Barra de Confianza Responsiva (flex-col md:flex-row) en Lista Nativa -->
+    <!-- Barra de Confianza Responsiva en Lista Nativa -->
     <ul
       class="flex flex-col gap-3 border-t border-background/15 py-6 text-sm text-secondary md:flex-row md:items-center md:gap-8"
     >
@@ -104,3 +77,4 @@ const garantias = [
     </ul>
   </div>
 </section>
+

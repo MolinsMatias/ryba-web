@@ -13,17 +13,20 @@ const {
 ---
 
 <!doctype html>
-<html lang="es" class="scroll-smooth bg-background">
+<html lang="es" class="scroll-smooth bg-[#151515]">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
     
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content="arriendo maquinaria pesada, RYBA SpA, excavadora en arriendo, grúa horquilla, fletes industriales, montaje industrial" />
+    
+    <!-- Status Bar & Theme Color para Safari iOS y Chrome Android -->
     <meta name="theme-color" content="#151515" />
-    <meta name="color-scheme" content="light" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -44,7 +47,7 @@ const {
       rel="stylesheet"
     />
   </head>
-  <body class="font-sans antialiased bg-background text-foreground">
+  <body class="font-sans antialiased bg-[#151515] text-foreground min-h-screen">
     <slot />
   </body>
 </html>
