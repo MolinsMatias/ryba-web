@@ -1,0 +1,54 @@
+---
+import Wrench from "lucide-astro/Wrench";
+import HardHat from "lucide-astro/HardHat";
+import Truck from "lucide-astro/Truck";
+import { servicios } from "@/lib/site";
+
+const iconos = [Wrench, HardHat, Truck];
+---
+
+<section
+  id="servicios"
+  aria-labelledby="servicios-titulo"
+  class="scroll-mt-6 border-b border-border bg-card"
+>
+  <div class="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-24">
+    <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <h2
+        id="servicios-titulo"
+        class="font-display text-4xl leading-none font-bold tracking-tight text-foreground uppercase sm:text-5xl"
+      >
+        Servicios
+      </h2>
+      <p class="max-w-md text-base leading-relaxed text-muted-foreground text-pretty">
+        Soporte completo alrededor del equipo, para que la faena no se
+        detenga.
+      </p>
+    </div>
+
+    <ul class="mt-14 grid gap-px border border-border bg-border md:grid-cols-3">
+      {servicios.map((servicio, i) => {
+        const Icono = iconos[i];
+        return (
+          <li class="group relative bg-card p-8 transition-colors hover:bg-background">
+            <span
+              aria-hidden="true"
+              class="absolute inset-x-0 top-0 h-0.5 scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100"
+            />
+            <Icono
+              class="size-6 text-primary"
+              stroke-width={1.75}
+              aria-hidden="true"
+            />
+            <h3 class="mt-6 font-display text-2xl font-semibold tracking-wide text-foreground uppercase">
+              {servicio.titulo}
+            </h3>
+            <p class="mt-3 text-sm leading-relaxed text-muted-foreground">
+              {servicio.descripcion}
+            </p>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>

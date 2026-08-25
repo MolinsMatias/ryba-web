@@ -1,0 +1,50 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "RYBA SpA | Arriendo de Maquinaria Pesada, Venta y Servicios",
+  description = "RYBA SpA: arriendo de maquinaria pesada con operador, mantenimiento, montaje industrial y fletes. Cotiza tu equipo por WhatsApp en minutos.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth bg-background">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="arriendo maquinaria pesada, RYBA SpA, excavadora en arriendo, grúa horquilla, fletes industriales, montaje industrial" />
+    <meta name="theme-color" content="#151515" />
+    <meta name="color-scheme" content="light" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="RYBA SpA | Arriendo de Maquinaria Pesada" />
+    <meta property="og:description" content="Equipos operativos, respaldo técnico y disponibilidad inmediata para tu obra o planta." />
+
+    <!-- Favicons -->
+    <link rel="icon" href="/icon-light-32x32.png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/icon-dark-32x32.png" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/apple-icon.png" />
+
+    <!-- Google Fonts: Inter & Barlow Condensed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="font-sans antialiased bg-background text-foreground">
+    <slot />
+  </body>
+</html>
