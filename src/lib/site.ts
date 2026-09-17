@@ -155,7 +155,6 @@ export const catalogo: Equipo[] = [
     mensaje_whatsapp:
       "Hola Rodrigo, me interesa cotizar la compra de Grúas Hidráulicas Tipo Pluma. ¿Me pueden enviar valores para las capacidades de 500kg, 1T y 2T?",
     imagenes: [
-      "/images/catalogo/grua-hidraulica/1000kg/foto-de-portada.webp",
       "/images/catalogo/grua-hidraulica/500kg/foto-de-portada.webp",
       "/images/catalogo/grua-hidraulica/1000kg/foto-en-camioneta-1.webp",
       "/images/catalogo/grua-hidraulica/500kg/foto-en-camioneta.webp",
@@ -232,7 +231,6 @@ export const catalogo: Equipo[] = [
         mensaje_whatsapp:
           "Hola Rodrigo, me interesa cotizar la Grúa Hidráulica Tipo Pluma capacidad 1.000 kg (1 Ton) para faena.",
         imagenes: [
-          "/images/catalogo/grua-hidraulica/1000kg/foto-de-portada.webp",
           "/images/catalogo/grua-hidraulica/1000kg/foto-en-camioneta-1.webp",
           "/images/catalogo/grua-hidraulica/1000kg/foto-en-camioneta-2.webp",
           "/images/catalogo/grua-hidraulica/1000kg/foto-de-funcionalidad.webp",
