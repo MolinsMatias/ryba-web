@@ -10,7 +10,6 @@ const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 const DEFAULT_INPUT_DIR = path.join(ROOT_DIR, 'public', 'images', 'catalogo-pre-optimizador');
 const DEFAULT_OUTPUT_DIR = path.join(ROOT_DIR, 'public', 'images', 'catalogo');
-const WATERMARK_PATH = path.resolve(ROOT_DIR, '..', 'logo-circular.png');
 
 // Configuración de optimización de imagen
 const CONFIG = {
@@ -41,48 +40,6 @@ function standardizeFilename(filename) {
   return `${cleanName || 'imagen'}.webp`;
 }
 
-/**
- * Prepara el buffer de la marca de agua con tamaño ajustado y opacidad personalizada
- */
-async function prepareWatermark(targetWidth) {
-  if (!fs.existsSync(WATERMARK_PATH)) {
-    throw new Error(`No se encontró el logo de marca de agua en: ${WATERMARK_PATH}`);
-  }
-
-  // Escalar el logo proporcional al tamaño de la imagen destino
-  const wmSize = Math.max(48, Math.round(targetWidth * CONFIG.watermarkRatio));
-
-  // Redimensionar logo a tamaño deseado
-  const resizedLogo = sharp(WATERMARK_PATH).resize(wmSize, wmSize, {
-    fit: 'inside',
-    withoutEnlargement: false,
-  });
-
-  // Extraer canales RGBA para modular la opacidad
-  const { data, info } = await resizedLogo.raw().toBuffer({ resolveWithObject: true });
-
-  // Multiplicar el canal Alfa por la opacidad configurada
-  const opacity = Math.max(0, Math.min(1, CONFIG.watermarkOpacity));
-  for (let i = 3; i < data.length; i += 4) {
-    data[i] = Math.round(data[i] * opacity);
-  }
-
-  const watermarkBuffer = await sharp(data, {
-    raw: {
-      width: info.width,
-      height: info.height,
-      channels: 4,
-    },
-  })
-    .png()
-    .toBuffer();
-
-  return {
-    buffer: watermarkBuffer,
-    width: info.width,
-    height: info.height,
-  };
-}
 
 /**
  * Procesa una única imagen: estandariza nombre, redimensiona, aplica watermark y comprime a WebP
@@ -105,34 +62,18 @@ export async function processImage(inputPath, outputPath) {
     targetHeight = Math.round(targetHeight * ratio);
   }
 
-  // Preparar marca de agua
-  const watermark = await prepareWatermark(targetWidth);
-
-  // Calcular posición (esquina inferior derecha con margen)
-  const marginX = Math.round(targetWidth * CONFIG.watermarkMarginRatio);
-  const marginY = Math.round(targetHeight * CONFIG.watermarkMarginRatio);
-  const left = Math.max(0, targetWidth - watermark.width - marginX);
-  const top = Math.max(0, targetHeight - watermark.height - marginY);
-
   // Asegurar que la carpeta de destino exista
   const outputDir = path.dirname(outputPath);
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  // Procesar imagen completa
+  // Procesar imagen completa: redimensionar proporcionalmente y convertir a WebP sin marca de agua
   await sharp(inputPath)
     .resize(targetWidth, targetHeight, {
       fit: 'inside',
       withoutEnlargement: true,
     })
-    .composite([
-      {
-        input: watermark.buffer,
-        top,
-        left,
-      },
-    ])
     .webp({ quality: CONFIG.webpQuality })
     .toFile(outputPath);
 

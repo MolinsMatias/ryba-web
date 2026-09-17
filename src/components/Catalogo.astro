@@ -1,5 +1,4 @@
 ---
-import Construction from "lucide-astro/Construction";
 import Eye from "lucide-astro/Eye";
 import ModalDetalleProducto, {
   type ProductoModal,
@@ -8,69 +7,145 @@ import ModalDetalleProducto, {
 // Número de WhatsApp para cotizaciones (formato internacional sin "+")
 const telefono = "56952063672";
 
-// Especificaciones y disponibilidad de prueba representativas del MVP
-const especificacionesDemo = [
-  { label: "Capacidad", valor: "1.2 m³", icono: "capacidad" },
-  { label: "Potencia", valor: "150 HP", icono: "potencia" },
-  { label: "Peso operativo", valor: "22.500 kg", icono: "peso" },
-  { label: "Año", valor: "2021", icono: "ano" },
-];
+// ─── Catálogo Real: 4 Equipos RYBA SpA ─────────────────────────────────────
 
-const disponibilidadDemo = {
-  estado: "Disponible para arriendo",
-  detalle: "En stock - Listo para trabajar",
+const generadorElectrico: ProductoModal = {
+  id: "generador-electrico",
+  nombre: "Generador Eléctrico",
+  descripcion_corta:
+    "Respaldo de energía insonorizado para faenas y obras. Disponibilidad inmediata y energía continua en terreno.",
+  modalidad: "Arriendo",
+  imagenes: [
+    "/images/catalogo/generador-electrico/generador-rojo.webp",
+    "/images/catalogo/generador-electrico/generador-rojo-lateral.webp",
+    "/images/catalogo/generador-electrico/generador-azul1.webp",
+    "/images/catalogo/generador-electrico/generador-azul2.webp",
+  ],
+  especificaciones: [
+    { label: "Unidades disponibles", valor: "3", icono: "capacidad" },
+    {
+      label: "Ventaja",
+      valor: "Energía continua en terreno",
+      icono: "potencia",
+    },
+  ],
+  disponibilidad: {
+    estado: "Disponible para arriendo",
+    detalle: "3 unidades en stock - Listo para trabajar",
+  },
 };
 
-// Catálogo de maquinaria para maquetado MVP (datos mock estructurados)
+const gruaHidraulica: ProductoModal = {
+  id: "grua-hidraulica",
+  nombre: "Grúas Hidráulicas Tipo Pluma",
+  descripcion_corta:
+    "Capacidades de 500kg, 1.000kg y 2.000kg. Montaje rápido y directo sobre camiones o camionetas de 5T.",
+  modalidad: "Venta",
+  imagenes: [
+    "/images/catalogo/grua-hidraulica/foto-de-portada.webp",
+    "/images/catalogo/grua-hidraulica/foto-de-contexto-estilo-de-vida.webp",
+    "/images/catalogo/grua-hidraulica/foto-de-detalle-close-up-tecnica.webp",
+    "/images/catalogo/grua-hidraulica/foto-de-escala-o-dimensiones.webp",
+    "/images/catalogo/grua-hidraulica/foto-de-funcionalidad.webp",
+    "/images/catalogo/grua-hidraulica/foto-en-camioneta.webp",
+    "/images/catalogo/grua-hidraulica/foto-en-camioneta-1.webp",
+    "/images/catalogo/grua-hidraulica/foto-en-camioneta-2.webp",
+    "/images/catalogo/grua-hidraulica/detalle-de-montaje-y-base-chico.webp",
+    "/images/catalogo/grua-hidraulica/detalle-de-montaje-y-base-grande.webp",
+    "/images/catalogo/grua-hidraulica/detalle-de-winche-y-cabezal-de-pluma.webp",
+    "/images/catalogo/grua-hidraulica/perspectiva-alternativa-vista-completa.webp",
+  ],
+  especificaciones: [
+    {
+      label: "Capacidad",
+      valor: "500 / 1.000 / 2.000 kg",
+      icono: "capacidad",
+    },
+    {
+      label: "Montaje",
+      valor: "Directo sobre camiones o camionetas de 5T",
+      icono: "montaje",
+    },
+  ],
+  disponibilidad: {
+    estado: "Disponible para venta",
+    detalle: "En stock - Entrega inmediata",
+  },
+};
+
+const torreIluminacionSolar: ProductoModal = {
+  id: "torre-iluminacion-solar",
+  nombre: "Torre de Iluminación Solar",
+  descripcion_corta:
+    "Mástil retráctil de 7 metros movible en 360°. Ahorro anual de $7.560.000 en diésel y retorno en 12 meses.",
+  modalidad: "Venta y Arriendo",
+  imagenes: [
+    "/images/catalogo/torre-iluminacion-solar/titulo-vision-frontal-y-producto-heroe.webp",
+    "/images/catalogo/torre-iluminacion-solar/contexto-de-uso-y-preparacion.webp",
+    "/images/catalogo/torre-iluminacion-solar/demostracion-de-poder-y-funcionalidad.webp",
+    "/images/catalogo/torre-iluminacion-solar/detalle-tecnico-y-panel-de-control.webp",
+    "/images/catalogo/torre-iluminacion-solar/perfil-de-despliegue-y-dimensiones.webp",
+    "/images/catalogo/torre-iluminacion-solar/rendimiento-y-cobertura-de-area.webp",
+    "/images/catalogo/torre-iluminacion-solar/whatsapp-image-2026-09-04-at-115830-3.webp",
+  ],
+  especificaciones: [
+    { label: "Autonomía", valor: "36 horas", icono: "autonomia" },
+    {
+      label: "Ahorro anual en diésel",
+      valor: "$7.560.000",
+      icono: "ahorro",
+    },
+    { label: "Retorno de inversión", valor: "12 meses", icono: "ahorro" },
+    {
+      label: "Certificaciones",
+      valor: "IP66, IK10, SEC, IEC 61439",
+      icono: "certificacion",
+    },
+  ],
+  disponibilidad: {
+    estado: "Disponible para venta y arriendo",
+    detalle: "En stock - Listo para trabajar",
+  },
+};
+
+const modularSolarRoof: ProductoModal = {
+  id: "modular-solar-roof",
+  nombre: "Techo para Contenedor",
+  descripcion_corta:
+    "Estructura modular para contenedores de 20 o 40 pies con fijación twist-lock. Ahorro anual de $18.396.000 en diésel y $0 en mantención.",
+  modalidad: "Venta y Arriendo",
+  imagenes: [
+    "/images/catalogo/modular-solar-roof/producto-heroe-vision-final-de-la-solucion-portada.webp",
+    "/images/catalogo/modular-solar-roof/detalle-posterior-y-accesos.webp",
+    "/images/catalogo/modular-solar-roof/escala-y-dimensiones-laterales.webp",
+    "/images/catalogo/modular-solar-roof/funcionalidad-tecnica-sistema-energetico-integrado.webp",
+  ],
+  especificaciones: [
+    { label: "Autonomía", valor: "24 horas", icono: "autonomia" },
+    {
+      label: "Ahorro anual en diésel",
+      valor: "$18.396.000",
+      icono: "ahorro",
+    },
+    { label: "Costo mantención", valor: "$0", icono: "ahorro" },
+    {
+      label: "Certificaciones",
+      valor: "IP67, IK10, SEC, IEC 61439",
+      icono: "certificacion",
+    },
+  ],
+  disponibilidad: {
+    estado: "Disponible para venta y arriendo",
+    detalle: "En stock - Listo para trabajar",
+  },
+};
+
+// Array final para iterar en la grilla y pasar al modal
 const maquinaria: ProductoModal[] = [
-  {
-    id: "producto-1",
-    nombre: "Producto 1",
-    descripcion_corta:
-      "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
-    especificaciones: especificacionesDemo,
-    disponibilidad: disponibilidadDemo,
-  },
-  {
-    id: "producto-2",
-    nombre: "Producto 2",
-    descripcion_corta:
-      "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
-    especificaciones: especificacionesDemo,
-    disponibilidad: disponibilidadDemo,
-  },
-  {
-    id: "producto-3",
-    nombre: "Producto 3",
-    descripcion_corta:
-      "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
-    especificaciones: especificacionesDemo,
-    disponibilidad: disponibilidadDemo,
-  },
-  {
-    id: "producto-4",
-    nombre: "Producto 4",
-    descripcion_corta:
-      "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
-    especificaciones: especificacionesDemo,
-    disponibilidad: disponibilidadDemo,
-  },
-  {
-    id: "producto-5",
-    nombre: "Producto 5",
-    descripcion_corta:
-      "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
-    especificaciones: especificacionesDemo,
-    disponibilidad: disponibilidadDemo,
-  },
-  {
-    id: "producto-6",
-    nombre: "Producto 6",
-    descripcion_corta:
-      "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
-    especificaciones: especificacionesDemo,
-    disponibilidad: disponibilidadDemo,
-  },
+  generadorElectrico,
+  gruaHidraulica,
+  torreIluminacionSolar,
+  modularSolarRoof,
 ];
 ---
 
@@ -107,23 +182,27 @@ const maquinaria: ProductoModal[] = [
       </p>
     </div>
 
-    <!-- Renderizado Dinámico del Catálogo -->
-    <ul class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <!-- Grilla 2×2 del Catálogo Real -->
+    <ul class="mt-14 grid gap-6 sm:grid-cols-2">
       {
         maquinaria.map((equipo) => (
           <li class="group flex flex-col border border-border bg-card transition-shadow hover:shadow-[0_18px_40px_-24px_rgba(21,21,21,0.35)]">
-            {/* Espacio de maquetación para la foto del equipo */}
-            <div class="relative aspect-square w-full overflow-hidden border-b border-border bg-muted bg-hatch">
-              <div class="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                <Construction
-                  class="size-9 text-secondary"
-                  stroke-width={1.5}
-                  aria-hidden="true"
-                />
-                <span class="font-display text-xs tracking-[0.2em] text-muted-foreground uppercase">
-                  Foto del equipo
+            {/* Foto de portada del equipo */}
+            <div class="relative flex items-center justify-center aspect-4/3 w-full overflow-hidden border-b border-border bg-neutral-100/70 p-4">
+              <img
+                src={equipo.imagenes?.[0] ?? ""}
+                alt={equipo.nombre}
+                class="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-105 drop-shadow-sm"
+                loading="lazy"
+                decoding="async"
+              />
+
+              {/* Badge de modalidad sobre la foto */}
+              {equipo.modalidad && (
+                <span class="absolute top-4 left-4 rounded-sm bg-foreground/85 px-3 py-1 font-display text-[11px] font-semibold tracking-wider text-background uppercase backdrop-blur-sm">
+                  {equipo.modalidad}
                 </span>
-              </div>
+              )}
             </div>
 
             <div class="flex flex-1 flex-col p-6">
