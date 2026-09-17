@@ -1,52 +1,75 @@
 ---
 import Construction from "lucide-astro/Construction";
-
-interface Maquinaria {
-  id: string;
-  nombre: string;
-  descripcion_corta: string;
-}
+import Eye from "lucide-astro/Eye";
+import ModalDetalleProducto, {
+  type ProductoModal,
+} from "./ModalDetalleProducto.astro";
 
 // Número de WhatsApp para cotizaciones (formato internacional sin "+")
 const telefono = "56952063672";
 
-// Catálogo de maquinaria para maquetado MVP
-const maquinaria: Maquinaria[] = [
+// Especificaciones y disponibilidad de prueba representativas del MVP
+const especificacionesDemo = [
+  { label: "Capacidad", valor: "1.2 m³", icono: "capacidad" },
+  { label: "Potencia", valor: "150 HP", icono: "potencia" },
+  { label: "Peso operativo", valor: "22.500 kg", icono: "peso" },
+  { label: "Año", valor: "2021", icono: "ano" },
+];
+
+const disponibilidadDemo = {
+  estado: "Disponible para arriendo",
+  detalle: "En stock - Listo para trabajar",
+};
+
+// Catálogo de maquinaria para maquetado MVP (datos mock estructurados)
+const maquinaria: ProductoModal[] = [
   {
     id: "producto-1",
     nombre: "Producto 1",
     descripcion_corta:
       "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
+    especificaciones: especificacionesDemo,
+    disponibilidad: disponibilidadDemo,
   },
   {
     id: "producto-2",
     nombre: "Producto 2",
     descripcion_corta:
       "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
+    especificaciones: especificacionesDemo,
+    disponibilidad: disponibilidadDemo,
   },
   {
     id: "producto-3",
     nombre: "Producto 3",
     descripcion_corta:
       "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
+    especificaciones: especificacionesDemo,
+    disponibilidad: disponibilidadDemo,
   },
   {
     id: "producto-4",
     nombre: "Producto 4",
     descripcion_corta:
       "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
+    especificaciones: especificacionesDemo,
+    disponibilidad: disponibilidadDemo,
   },
   {
     id: "producto-5",
     nombre: "Producto 5",
     descripcion_corta:
       "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
+    especificaciones: especificacionesDemo,
+    disponibilidad: disponibilidadDemo,
   },
   {
     id: "producto-6",
     nombre: "Producto 6",
     descripcion_corta:
       "Descripción breve del equipo, especificaciones técnicas y capacidad operativa para arriendo.",
+    especificaciones: especificacionesDemo,
+    disponibilidad: disponibilidadDemo,
   },
 ];
 ---
@@ -131,10 +154,29 @@ const maquinaria: Maquinaria[] = [
                 </svg>
                 <span>Cotizar por WhatsApp</span>
               </a>
+
+              {/* Botón Ver Detalle */}
+              <button
+                type="button"
+                aria-label={`Ver detalle de ${equipo.nombre}`}
+                aria-haspopup="dialog"
+                data-open-modal={equipo.id}
+                data-producto-id={equipo.id}
+                class="group mt-2.5 inline-flex h-11 w-full cursor-pointer items-center justify-center gap-2.5 rounded-sm border border-foreground bg-white px-5 font-display text-sm font-semibold tracking-wide text-foreground uppercase transition-all hover:bg-foreground hover:text-background focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:scale-[0.99]"
+              >
+                <Eye
+                  class="size-4 shrink-0 transition-transform group-hover:scale-110"
+                  aria-hidden="true"
+                />
+                <span>Ver detalle</span>
+              </button>
             </div>
           </li>
         ))
       }
     </ul>
+
+    {/* Componente Modal de Detalle de Producto */}
+    <ModalDetalleProducto maquinaria={maquinaria} telefono={telefono} />
   </div>
 </section>

@@ -1,0 +1,566 @@
+---
+export interface Especificacion {
+  label: string;
+  valor: string;
+  icono?: "capacidad" | "potencia" | "peso" | "ano" | string;
+}
+
+export interface Disponibilidad {
+  estado: string;
+  detalle: string;
+}
+
+export interface ProductoModal {
+  id: string;
+  nombre: string;
+  descripcion_corta: string;
+  imagenes?: string[];
+  especificaciones?: Especificacion[];
+  disponibilidad?: Disponibilidad;
+}
+
+interface Props {
+  maquinaria: ProductoModal[];
+  telefono: string;
+}
+
+const { maquinaria, telefono } = Astro.props;
+---
+
+<!-- Elemento nativo accesible <dialog> para el modal de detalle -->
+<dialog
+  id="modal-detalle-producto"
+  aria-labelledby="modal-producto-nombre"
+  aria-modal="true"
+  class="fixed inset-0 z-50 m-auto w-full max-w-5xl bg-transparent p-3 sm:p-4 md:p-6 border-0 overflow-visible backdrop:backdrop-blur-[2px]"
+>
+  <!-- Contenedor de la Tarjeta del Modal -->
+  <div
+    data-purpose="modal-card"
+    tabindex="-1"
+    class="relative flex w-full flex-col md:flex-row gap-6 md:gap-8 rounded-2xl bg-white p-6 md:p-8 shadow-2xl border border-black/5 max-h-[92vh] md:max-h-none overflow-y-auto md:overflow-visible transition-all animate-fade-in focus:outline-none"
+  >
+    <!-- Botón Cerrar (X) superior derecho flotante -->
+    <button
+      id="modal-btn-cerrar-x"
+      type="button"
+      aria-label="Cerrar ventana modal"
+      class="absolute top-7 right-7 md:top-5 md:right-5 z-20 flex size-8 md:size-9 items-center justify-center rounded-full bg-white/95 text-neutral-700 hover:text-black hover:bg-white shadow-md backdrop-blur-sm border border-neutral-200/60 transition-all hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+    >
+      <svg
+        class="size-4 md:size-5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <!-- COLUMNA IZQUIERDA: Galería / Carrusel de Imágenes -->
+    <div
+      class="flex w-full md:w-[54%] flex-col items-center justify-center shrink-0"
+    >
+      <div
+        id="modal-carrusel-contenedor"
+        class="group relative w-full aspect-16/10 md:aspect-4/3 overflow-hidden rounded-xl bg-neutral-100 shadow-inner select-none"
+      >
+        <!-- Imagen visible del carrusel -->
+        <img
+          id="modal-imagen-principal"
+          src=""
+          alt="Imagen del equipo"
+          class="h-full w-full object-cover object-center transition-opacity duration-300"
+        />
+
+        <!-- Placeholder cuando no hay imagen disponible -->
+        <div
+          id="modal-imagen-placeholder"
+          class="absolute inset-0 flex flex-col items-center justify-center bg-muted gap-2 text-muted-foreground"
+        >
+          <svg
+            class="size-12 opacity-60"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+            ></path>
+          </svg>
+          <span class="text-xs font-semibold uppercase tracking-wider"
+            >Foto del equipo</span
+          >
+        </div>
+
+        <!-- Flecha Anterior -->
+        <button
+          id="modal-carrusel-btn-prev"
+          type="button"
+          aria-label="Imagen anterior"
+          class="absolute left-3 top-1/2 -translate-y-1/2 flex size-8 items-center justify-center rounded-full bg-neutral-900/60 text-white backdrop-blur-sm transition-all hover:bg-neutral-900/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+        >
+          <svg
+            class="size-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+
+        <!-- Flecha Siguiente -->
+        <button
+          id="modal-carrusel-btn-next"
+          type="button"
+          aria-label="Siguiente imagen"
+          class="absolute right-3 top-1/2 -translate-y-1/2 flex size-8 items-center justify-center rounded-full bg-neutral-900/60 text-white backdrop-blur-sm transition-all hover:bg-neutral-900/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+        >
+          <svg
+            class="size-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Puntos de Paginación (Dots) -->
+      <div
+        id="modal-carrusel-dots"
+        class="mt-3.5 flex items-center justify-center gap-1.5"
+        role="tablist"
+        aria-label="Diapositivas de la galería"
+      >
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: Datos del Producto, Especificaciones y Acciones -->
+    <div class="flex w-full md:w-[46%] flex-col justify-between pt-1">
+      <div>
+        <!-- Nombre y Descripción breve -->
+        <h2
+          id="modal-producto-nombre"
+          class="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900 uppercase"
+        >
+        </h2>
+        <p
+          id="modal-producto-descripcion"
+          class="mt-1.5 text-xs sm:text-sm leading-relaxed text-neutral-500"
+        >
+        </p>
+
+        <!-- Sección de Especificaciones Técnicas -->
+        <div class="mt-4 sm:mt-5 border-t border-neutral-100 pt-3.5">
+          <h3
+            class="text-xs font-bold uppercase tracking-wider text-neutral-900 mb-3"
+          >
+            Especificaciones Técnicas
+          </h3>
+          <div
+            id="modal-especificaciones-lista"
+            class="space-y-2.5 text-xs sm:text-[13px]"
+          >
+            <!-- Se llena dinámicamente -->
+          </div>
+        </div>
+
+        <!-- Indicador de Disponibilidad -->
+        <div
+          id="modal-disponibilidad-bloque"
+          class="mt-5 border-t border-neutral-100 pt-3"
+        >
+          <div class="flex items-center gap-2">
+            <span class="size-2 rounded-full bg-emerald-500 shrink-0"></span>
+            <span
+              id="modal-disponibilidad-estado"
+              class="text-xs font-semibold text-emerald-600"
+            >
+              Disponible para arriendo
+            </span>
+          </div>
+          <p
+            id="modal-disponibilidad-detalle"
+            class="mt-0.5 ml-4 text-[11px] font-normal text-neutral-400"
+          >
+            En stock - Listo para trabajar
+          </p>
+        </div>
+      </div>
+
+      <!-- Botones de Acción (CTA) -->
+      <div class="mt-6 flex flex-col gap-2.5">
+        <!-- Botón Principal: WhatsApp -->
+        <a
+          id="modal-btn-whatsapp"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex w-full items-center justify-center gap-2 rounded-lg bg-[#18181b] hover:bg-black px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition-all active:scale-[0.99]"
+        >
+          <svg
+            class="size-4 shrink-0 fill-current text-white transition-transform group-hover:scale-110"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.97L2 22l5.25-1.38c1.45.79 3.08 1.2 4.79 1.2h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm0 18.02h-.01c-1.5 0-2.97-.4-4.26-1.17l-.3-.18-3.12.82.83-3.04-.2-.31a8.24 8.24 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.82 2.41a8.16 8.16 0 0 1 2.41 5.83c0 4.54-3.7 8.25-8.16 8.25Zm4.53-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.06-.39-2.02-1.25-.75-.66-1.25-1.48-1.39-1.73-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.42.06-.64.31-.22.25-.85.83-.85 2.02 0 1.19.87 2.34.99 2.5.12.17 1.7 2.6 4.12 3.64.58.25 1.02.4 1.37.51.58.19 1.1.16 1.52.1.46-.07 1.47-.6 1.68-1.19.21-.58.21-1.08.15-1.19-.06-.1-.23-.16-.48-.29Z"
+            ></path>
+          </svg>
+          <span>Cotizar por WhatsApp</span>
+        </a>
+
+        <!-- Botón Secundario: Cerrar -->
+        <button
+          id="modal-btn-cerrar-secundario"
+          type="button"
+          class="w-full rounded-lg border border-neutral-900 bg-white hover:bg-neutral-50 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-neutral-900 transition-all active:scale-[0.99] cursor-pointer"
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- Datos serializados para acceso rápido en cliente sin peticiones externas -->
+<script
+  id="datos-catalogo-modal"
+  type="application/json"
+  set:html={JSON.stringify(maquinaria)}
+/>
+<script
+  id="telefono-whatsapp-modal"
+  type="application/json"
+  set:html={JSON.stringify(telefono)}
+/>
+
+<!-- Lógica del Modal y Carrusel con Soporte Táctil (Touch Swipe) -->
+<script>
+  function inicializarModalDetalle() {
+    const dialogElement = document.getElementById("modal-detalle-producto");
+    const datosScript = document.getElementById("datos-catalogo-modal");
+    const telScript = document.getElementById("telefono-whatsapp-modal");
+
+    if (!dialogElement || !datosScript || !telScript) return;
+    const dialog = dialogElement as HTMLDialogElement;
+
+    interface EspecificacionItem {
+      label: string;
+      valor: string;
+      icono?: string;
+    }
+
+    interface ProductoItem {
+      id: string;
+      nombre: string;
+      descripcion_corta: string;
+      imagenes?: string[];
+      especificaciones?: EspecificacionItem[];
+      disponibilidad?: {
+        estado?: string;
+        detalle?: string;
+      };
+    }
+
+    let productos: ProductoItem[] = [];
+    let telefono = "";
+    try {
+      productos = JSON.parse(datosScript.textContent || "[]");
+      telefono = JSON.parse(telScript.textContent || '""');
+    } catch (e) {
+      console.error("Error al parsear datos para el modal", e);
+      return;
+    }
+
+    // Elementos del Modal
+    const nombreEl = document.getElementById("modal-producto-nombre");
+    const descEl = document.getElementById("modal-producto-descripcion");
+    const specsEl = document.getElementById("modal-especificaciones-lista");
+    const dispEstadoEl = document.getElementById("modal-disponibilidad-estado");
+    const dispDetalleEl = document.getElementById(
+      "modal-disponibilidad-detalle",
+    );
+    const dispBloque = document.getElementById("modal-disponibilidad-bloque");
+    const btnWhatsapp = document.getElementById(
+      "modal-btn-whatsapp",
+    ) as HTMLAnchorElement | null;
+    const btnCerrarX = document.getElementById("modal-btn-cerrar-x");
+    const btnCerrarSec = document.getElementById("modal-btn-cerrar-secundario");
+
+    // Elementos del Carrusel
+    const carruselContenedor = document.getElementById(
+      "modal-carrusel-contenedor",
+    );
+    const imgEl = document.getElementById(
+      "modal-imagen-principal",
+    ) as HTMLImageElement | null;
+    const imgPlaceholder = document.getElementById("modal-imagen-placeholder");
+    const btnPrev = document.getElementById("modal-carrusel-btn-prev");
+    const btnNext = document.getElementById("modal-carrusel-btn-next");
+    const dotsContainer = document.getElementById("modal-carrusel-dots");
+
+    let imagenesActuales: string[] = [];
+    let indiceActual = 0;
+
+    // Iconos SVG para especificaciones técnicas
+    function obtenerIconoSpec(tipo?: string) {
+      switch (tipo) {
+        case "capacidad":
+          return `<svg class="size-4 text-neutral-500 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>`;
+        case "potencia":
+          return `<svg class="size-4 text-neutral-500 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>`;
+        case "peso":
+          return `<svg class="size-4 text-neutral-500 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>`;
+        case "ano":
+          return `<svg class="size-4 text-neutral-500 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>`;
+        default:
+          return `<svg class="size-4 text-neutral-500 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path></svg>`;
+      }
+    }
+
+    function actualizarSlide(indice: number) {
+      if (!imgEl || !dotsContainer) return;
+      if (imagenesActuales.length === 0) {
+        imgEl.classList.add("hidden");
+        if (imgPlaceholder) imgPlaceholder.classList.remove("hidden");
+        if (btnPrev) btnPrev.classList.add("hidden");
+        if (btnNext) btnNext.classList.add("hidden");
+        dotsContainer.innerHTML = "";
+        return;
+      }
+
+      if (imgPlaceholder) imgPlaceholder.classList.add("hidden");
+      imgEl.classList.remove("hidden");
+
+      // Circular index
+      indiceActual =
+        (indice + imagenesActuales.length) % imagenesActuales.length;
+      imgEl.src = imagenesActuales[indiceActual];
+
+      // Ocultar controles si solo hay 1 imagen
+      const tieneMultiples = imagenesActuales.length > 1;
+      if (btnPrev) btnPrev.style.display = tieneMultiples ? "flex" : "none";
+      if (btnNext) btnNext.style.display = tieneMultiples ? "flex" : "none";
+
+      // Actualizar dots
+      dotsContainer.innerHTML = "";
+      if (tieneMultiples) {
+        imagenesActuales.forEach((_, i) => {
+          const dot = document.createElement("button");
+          dot.type = "button";
+          dot.setAttribute("aria-label", `Slide ${i + 1}`);
+          dot.className =
+            i === indiceActual
+              ? "size-2 rounded-full bg-neutral-900 transition-all cursor-pointer"
+              : "size-1.5 rounded-full bg-neutral-300 hover:bg-neutral-400 transition-all cursor-pointer";
+          dot.addEventListener("click", () => actualizarSlide(i));
+          dotsContainer.appendChild(dot);
+        });
+      }
+    }
+
+    function abrirModal(id: string) {
+      const producto = productos.find((p) => p.id === id);
+      if (!producto) return;
+
+      if (nombreEl) nombreEl.textContent = producto.nombre;
+      if (descEl) descEl.textContent = producto.descripcion_corta;
+
+      // Galería de imágenes
+      imagenesActuales =
+        Array.isArray(producto.imagenes) && producto.imagenes.length > 0
+          ? producto.imagenes
+          : [];
+      actualizarSlide(0);
+
+      // Especificaciones técnicas
+      if (specsEl) {
+        specsEl.innerHTML = "";
+        const specs = Array.isArray(producto.especificaciones)
+          ? producto.especificaciones
+          : [];
+        if (specs.length === 0) {
+          specsEl.innerHTML = `<p class="text-neutral-400 italic text-xs">Especificaciones disponibles a solicitud del cliente.</p>`;
+        } else {
+          specs.forEach((spec: EspecificacionItem) => {
+            const row = document.createElement("div");
+            row.className =
+              "flex items-center justify-between text-neutral-700";
+            row.innerHTML = `
+              <div class="flex items-center gap-2.5">
+                ${obtenerIconoSpec(spec.icono)}
+                <span>${spec.label}</span>
+              </div>
+              <span class="font-semibold text-neutral-900">${spec.valor}</span>
+            `;
+            specsEl.appendChild(row);
+          });
+        }
+      }
+
+      // Disponibilidad (datos desde el objeto/JSON del producto)
+      if (dispBloque) {
+        if (producto.disponibilidad) {
+          dispBloque.classList.remove("hidden");
+          if (dispEstadoEl)
+            dispEstadoEl.textContent =
+              producto.disponibilidad.estado || "Disponible para arriendo";
+          if (dispDetalleEl)
+            dispDetalleEl.textContent =
+              producto.disponibilidad.detalle ||
+              "En stock - Listo para trabajar";
+        } else {
+          dispBloque.classList.remove("hidden");
+          if (dispEstadoEl)
+            dispEstadoEl.textContent = "Disponible para arriendo";
+          if (dispDetalleEl)
+            dispDetalleEl.textContent = "En stock - Listo para trabajar";
+        }
+      }
+
+      // Botón WhatsApp inteligente pre-llenado
+      if (btnWhatsapp) {
+        const mensaje = `Hola, me interesa cotizar el ${producto.nombre}`;
+        btnWhatsapp.href = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+      }
+
+      // Bloquear scroll de fondo y abrir dialog nativo
+      document.body.style.overflow = "hidden";
+      dialog.showModal();
+
+      // Evitar que el navegador autoenfoque la X al abrir el modal
+      const tarjeta = dialog.querySelector(
+        '[data-purpose="modal-card"]',
+      ) as HTMLElement | null;
+      if (tarjeta) {
+        tarjeta.focus({ preventScroll: true });
+      } else if (btnCerrarX) {
+        btnCerrarX.blur();
+      }
+    }
+
+    let disparadorAnterior: HTMLElement | null = null;
+
+    function cerrarModal() {
+      document.body.style.overflow = "";
+      dialog.close();
+      if (disparadorAnterior) {
+        disparadorAnterior.focus({ preventScroll: true });
+        disparadorAnterior = null;
+      }
+    }
+
+    // Listeners de cierre
+    if (btnCerrarX) btnCerrarX.addEventListener("click", cerrarModal);
+    if (btnCerrarSec) btnCerrarSec.addEventListener("click", cerrarModal);
+
+    // Cierre al hacer clic en el backdrop fuera de la tarjeta
+    dialog.addEventListener("click", (event) => {
+      const tarjeta = dialog.querySelector('[data-purpose="modal-card"]');
+      if (tarjeta && !tarjeta.contains(event.target as Node)) {
+        cerrarModal();
+      }
+    });
+
+    // Restaurar scroll si se cierra con tecla ESC nativa
+    dialog.addEventListener("close", () => {
+      document.body.style.overflow = "";
+      if (disparadorAnterior) {
+        disparadorAnterior.focus({ preventScroll: true });
+        disparadorAnterior = null;
+      }
+    });
+
+    // Controles del Carrusel: Botones Prev / Next
+    if (btnPrev) {
+      btnPrev.addEventListener("click", (e) => {
+        e.stopPropagation();
+        actualizarSlide(indiceActual - 1);
+      });
+    }
+
+    if (btnNext) {
+      btnNext.addEventListener("click", (e) => {
+        e.stopPropagation();
+        actualizarSlide(indiceActual + 1);
+      });
+    }
+
+    // Soporte Touch Swipe en móviles
+    if (carruselContenedor) {
+      let touchStartX = 0;
+      let touchEndX = 0;
+      let touchStartY = 0;
+      let touchEndY = 0;
+
+      carruselContenedor.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+          touchStartY = e.changedTouches[0].screenY;
+        },
+        { passive: true },
+      );
+
+      carruselContenedor.addEventListener(
+        "touchend",
+        (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          touchEndY = e.changedTouches[0].screenY;
+          const deltaX = touchEndX - touchStartX;
+          const deltaY = touchEndY - touchStartY;
+
+          // Detectar swipe horizontal prioritario si no es un scroll vertical
+          if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX < 0) {
+              actualizarSlide(indiceActual + 1); // Swipe izquierda -> siguiente
+            } else {
+              actualizarSlide(indiceActual - 1); // Swipe derecha -> anterior
+            }
+          }
+        },
+        { passive: true },
+      );
+    }
+
+    // Vincular todos los botones de "Ver detalle" del catálogo
+    document.querySelectorAll("[data-open-modal]").forEach((boton) => {
+      boton.addEventListener("click", () => {
+        disparadorAnterior = boton as HTMLElement;
+        const id = boton.getAttribute("data-open-modal");
+        if (id) abrirModal(id);
+      });
+    });
+  }
+
+  // Inicializar al cargar el DOM y en transiciones de navegación
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", inicializarModalDetalle);
+  } else {
+    inicializarModalDetalle();
+  }
+  document.addEventListener("astro:page-load", inicializarModalDetalle);
+</script>
