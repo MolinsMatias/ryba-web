@@ -1,152 +1,17 @@
 ---
 import Eye from "lucide-astro/Eye";
-import ModalDetalleProducto, {
-  type ProductoModal,
-} from "./ModalDetalleProducto.astro";
+import Zap from "lucide-astro/Zap";
+import Check from "lucide-astro/Check";
+import {
+  catalogo,
+  WHATSAPP_NUMBER,
+  whatsappLink,
+  type Equipo,
+} from "@/lib/site";
+import ModalDetalleProducto from "./ModalDetalleProducto.astro";
 
-// Número de WhatsApp para cotizaciones (formato internacional sin "+")
-const telefono = "56952063672";
-
-// ─── Catálogo Real: 4 Equipos RYBA SpA ─────────────────────────────────────
-
-const generadorElectrico: ProductoModal = {
-  id: "generador-electrico",
-  nombre: "Generador Eléctrico",
-  descripcion_corta:
-    "Respaldo de energía insonorizado para faenas y obras. Disponibilidad inmediata y energía continua en terreno.",
-  modalidad: "Arriendo",
-  imagenes: [
-    "/images/catalogo/generador-electrico/generador-rojo.webp",
-    "/images/catalogo/generador-electrico/generador-rojo-lateral.webp",
-    "/images/catalogo/generador-electrico/generador-azul1.webp",
-    "/images/catalogo/generador-electrico/generador-azul2.webp",
-  ],
-  especificaciones: [
-    { label: "Unidades disponibles", valor: "3", icono: "capacidad" },
-    {
-      label: "Ventaja",
-      valor: "Energía continua en terreno",
-      icono: "potencia",
-    },
-  ],
-  disponibilidad: {
-    estado: "Disponible para arriendo",
-    detalle: "3 unidades en stock - Listo para trabajar",
-  },
-};
-
-const gruaHidraulica: ProductoModal = {
-  id: "grua-hidraulica",
-  nombre: "Grúas Hidráulicas Tipo Pluma",
-  descripcion_corta:
-    "Capacidades de 500kg, 1.000kg y 2.000kg. Montaje rápido y directo sobre camiones o camionetas de 5T.",
-  modalidad: "Venta",
-  imagenes: [
-    "/images/catalogo/grua-hidraulica/foto-de-portada.webp",
-    "/images/catalogo/grua-hidraulica/foto-de-contexto-estilo-de-vida.webp",
-    "/images/catalogo/grua-hidraulica/foto-de-detalle-close-up-tecnica.webp",
-    "/images/catalogo/grua-hidraulica/foto-de-escala-o-dimensiones.webp",
-    "/images/catalogo/grua-hidraulica/foto-de-funcionalidad.webp",
-    "/images/catalogo/grua-hidraulica/foto-en-camioneta.webp",
-    "/images/catalogo/grua-hidraulica/foto-en-camioneta-1.webp",
-    "/images/catalogo/grua-hidraulica/foto-en-camioneta-2.webp",
-    "/images/catalogo/grua-hidraulica/detalle-de-montaje-y-base-chico.webp",
-    "/images/catalogo/grua-hidraulica/detalle-de-montaje-y-base-grande.webp",
-    "/images/catalogo/grua-hidraulica/detalle-de-winche-y-cabezal-de-pluma.webp",
-    "/images/catalogo/grua-hidraulica/perspectiva-alternativa-vista-completa.webp",
-  ],
-  especificaciones: [
-    {
-      label: "Capacidad",
-      valor: "500 / 1.000 / 2.000 kg",
-      icono: "capacidad",
-    },
-    {
-      label: "Montaje",
-      valor: "Directo sobre camiones o camionetas de 5T",
-      icono: "montaje",
-    },
-  ],
-  disponibilidad: {
-    estado: "Disponible para venta",
-    detalle: "En stock - Entrega inmediata",
-  },
-};
-
-const torreIluminacionSolar: ProductoModal = {
-  id: "torre-iluminacion-solar",
-  nombre: "Torre de Iluminación Solar",
-  descripcion_corta:
-    "Mástil retráctil de 7 metros movible en 360°. Ahorro anual de $7.560.000 en diésel y retorno en 12 meses.",
-  modalidad: "Venta y Arriendo",
-  imagenes: [
-    "/images/catalogo/torre-iluminacion-solar/titulo-vision-frontal-y-producto-heroe.webp",
-    "/images/catalogo/torre-iluminacion-solar/contexto-de-uso-y-preparacion.webp",
-    "/images/catalogo/torre-iluminacion-solar/demostracion-de-poder-y-funcionalidad.webp",
-    "/images/catalogo/torre-iluminacion-solar/detalle-tecnico-y-panel-de-control.webp",
-    "/images/catalogo/torre-iluminacion-solar/perfil-de-despliegue-y-dimensiones.webp",
-    "/images/catalogo/torre-iluminacion-solar/rendimiento-y-cobertura-de-area.webp",
-    "/images/catalogo/torre-iluminacion-solar/whatsapp-image-2026-09-04-at-115830-3.webp",
-  ],
-  especificaciones: [
-    { label: "Autonomía", valor: "36 horas", icono: "autonomia" },
-    {
-      label: "Ahorro anual en diésel",
-      valor: "$7.560.000",
-      icono: "ahorro",
-    },
-    { label: "Retorno de inversión", valor: "12 meses", icono: "ahorro" },
-    {
-      label: "Certificaciones",
-      valor: "IP66, IK10, SEC, IEC 61439",
-      icono: "certificacion",
-    },
-  ],
-  disponibilidad: {
-    estado: "Disponible para venta y arriendo",
-    detalle: "En stock - Listo para trabajar",
-  },
-};
-
-const modularSolarRoof: ProductoModal = {
-  id: "modular-solar-roof",
-  nombre: "Techo para Contenedor",
-  descripcion_corta:
-    "Estructura modular para contenedores de 20 o 40 pies con fijación twist-lock. Ahorro anual de $18.396.000 en diésel y $0 en mantención.",
-  modalidad: "Venta y Arriendo",
-  imagenes: [
-    "/images/catalogo/modular-solar-roof/producto-heroe-vision-final-de-la-solucion-portada.webp",
-    "/images/catalogo/modular-solar-roof/detalle-posterior-y-accesos.webp",
-    "/images/catalogo/modular-solar-roof/escala-y-dimensiones-laterales.webp",
-    "/images/catalogo/modular-solar-roof/funcionalidad-tecnica-sistema-energetico-integrado.webp",
-  ],
-  especificaciones: [
-    { label: "Autonomía", valor: "24 horas", icono: "autonomia" },
-    {
-      label: "Ahorro anual en diésel",
-      valor: "$18.396.000",
-      icono: "ahorro",
-    },
-    { label: "Costo mantención", valor: "$0", icono: "ahorro" },
-    {
-      label: "Certificaciones",
-      valor: "IP67, IK10, SEC, IEC 61439",
-      icono: "certificacion",
-    },
-  ],
-  disponibilidad: {
-    estado: "Disponible para venta y arriendo",
-    detalle: "En stock - Listo para trabajar",
-  },
-};
-
-// Array final para iterar en la grilla y pasar al modal
-const maquinaria: ProductoModal[] = [
-  generadorElectrico,
-  gruaHidraulica,
-  torreIluminacionSolar,
-  modularSolarRoof,
-];
+// Estilo plano estático unificado para etiquetas de modalidad
+const BADGE_MODALIDAD_CLASS = "bg-neutral-900 text-white border-neutral-800";
 ---
 
 <section
@@ -154,7 +19,7 @@ const maquinaria: ProductoModal[] = [
   aria-labelledby="catalogo-titulo"
   class="border-b border-border bg-background"
 >
-  <div class="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-24">
+  <div class="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-24">
     <div
       class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
     >
@@ -162,7 +27,7 @@ const maquinaria: ProductoModal[] = [
         <div class="flex items-center gap-3">
           <span aria-hidden="true" class="h-0.5 w-10 bg-primary"></span>
           <span
-            class="font-display text-sm tracking-[0.22em] text-muted-foreground uppercase"
+            class="font-display text-sm tracking-[0.22em] text-muted-foreground uppercase font-semibold"
           >
             Disponibilidad inmediata
           </span>
@@ -177,78 +42,132 @@ const maquinaria: ProductoModal[] = [
       <p
         class="max-w-md text-base leading-relaxed text-muted-foreground text-pretty"
       >
-        Selecciona el equipo y te enviamos valor por día, semana o mes junto a
-        las condiciones de traslado.
+        Equipos de respaldo energético, izaje y soluciones modulares para faena.
+        Cotización directa a WhatsApp.
       </p>
     </div>
 
-    <!-- Grilla 2×2 del Catálogo Real -->
-    <ul class="mt-14 grid gap-6 sm:grid-cols-2">
+    <!-- Grilla 2×2: Tarjetas limpias, legibles y 100% Mobile-Friendly -->
+    <ul class="mt-12 grid gap-6 sm:gap-8 sm:grid-cols-2">
       {
-        maquinaria.map((equipo) => (
-          <li class="group flex flex-col border border-border bg-card transition-shadow hover:shadow-[0_18px_40px_-24px_rgba(21,21,21,0.35)]">
-            {/* Foto de portada del equipo */}
-            <div class="relative flex items-center justify-center aspect-4/3 w-full overflow-hidden border-b border-border bg-neutral-100/70 p-4">
+        catalogo.map((equipo: Equipo) => (
+          <li class="group relative flex flex-col rounded-lg border border-neutral-200/90 bg-card shadow-xs transition-all duration-300 hover:border-neutral-400 hover:shadow-lg overflow-hidden">
+            {/* Foto de portada clickeable (abre modal sin retención de foco) */}
+            <button
+              type="button"
+              data-open-modal={equipo.id}
+              data-producto-id={equipo.id}
+              data-trigger-type="photo"
+              aria-label={`Ver fotos y especificaciones de ${equipo.nombre}`}
+              tabindex="-1"
+              class="group/photo relative flex items-center justify-center aspect-4/3 w-full overflow-hidden border-b border-neutral-200/90 bg-neutral-100/80 p-4 select-none cursor-pointer outline-none focus:outline-none focus:ring-0 focus-visible:outline-none active:outline-none active:ring-0 [-webkit-tap-highlight-color:transparent]"
+              style="outline: none !important; box-shadow: none !important;"
+            >
               <img
                 src={equipo.imagenes?.[0] ?? ""}
                 alt={equipo.nombre}
-                class="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-105 drop-shadow-sm"
+                width="600"
+                height="450"
+                draggable="false"
+                class="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-105 drop-shadow-sm pointer-events-none select-none"
                 loading="lazy"
                 decoding="async"
               />
 
-              {/* Badge de modalidad sobre la foto */}
-              {equipo.modalidad && (
-                <span class="absolute top-4 left-4 rounded-sm bg-foreground/85 px-3 py-1 font-display text-[11px] font-semibold tracking-wider text-background uppercase backdrop-blur-sm">
-                  {equipo.modalidad}
-                </span>
-              )}
-            </div>
+              {/* Badge Estático de Modalidad (Color plano sobrio) */}
+              <span
+                class={`absolute top-3 left-3 inline-flex items-center rounded border px-2.5 py-1 font-display text-[11px] font-bold tracking-wider uppercase shadow-xs pointer-events-none ${BADGE_MODALIDAD_CLASS}`}
+              >
+                {equipo.modalidad}
+              </span>
+            </button>
 
-            <div class="flex flex-1 flex-col p-6">
-              <h3 class="font-display text-2xl leading-none font-semibold tracking-wide text-foreground uppercase">
+            {/* Cuerpo de la Tarjeta */}
+            <div class="flex flex-1 flex-col p-5 sm:p-6">
+              <h3 class="font-display text-2xl leading-tight font-bold tracking-tight text-neutral-950 uppercase">
                 {equipo.nombre}
               </h3>
 
-              <p class="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {equipo.descripcion_corta}
-              </p>
+              {/* Callout de Ahorro en Diésel (compacto y legible en móvil sin cortes) */}
+              {equipo.ahorro_destacado && (
+                <div class="mt-3 flex items-center justify-between rounded border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-emerald-950">
+                  <div class="flex items-center gap-1.5 font-display text-xs sm:text-sm font-bold tracking-wide">
+                    <Zap
+                      class="size-3.5 text-emerald-600 shrink-0"
+                      aria-hidden="true"
+                    />
+                    <span>Ahorro Diésel: {equipo.ahorro_destacado.monto}</span>
+                  </div>
+                  <span class="rounded bg-emerald-600/15 px-1.5 py-0.5 text-[10px] font-bold text-emerald-900 uppercase tracking-wide">
+                    {equipo.ahorro_destacado.subtitulo}
+                  </span>
+                </div>
+              )}
 
-              <div class="mt-6 flex-1" />
+              {/* Viñetas Clave (Legibles en móvil, sin truncation ni cortes) */}
+              <ul class="mt-3.5 space-y-2 border-t border-neutral-100 pt-3 text-xs sm:text-[13px] text-neutral-800">
+                {equipo.bullets_clave.map((bullet) => (
+                  <li class="flex items-start gap-2">
+                    <Check
+                      class="size-3.5 text-emerald-600 shrink-0 mt-0.5"
+                      stroke-width={2.5}
+                      aria-hidden="true"
+                    />
+                    <span class="leading-snug">{bullet}</span>
+                  </li>
+                ))}
+              </ul>
 
-              {/* Botón de WhatsApp Inteligente */}
-              <a
-                href={`https://wa.me/${telefono}?text=Hola,%20me%20interesa%20cotizar%20el%20${encodeURIComponent(equipo.nombre)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-sm border border-foreground/15 bg-foreground px-5 font-display text-sm font-semibold tracking-wide text-background uppercase transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  class="size-4 shrink-0 transition-transform group-hover:scale-110"
+              {/* Sellos de Cumplimiento Normativo (SEC / IP66 / IK10) */}
+              {equipo.certificaciones_chips &&
+                equipo.certificaciones_chips.length > 0 && (
+                  <div class="mt-3.5 flex flex-wrap items-center gap-1.5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mr-0.5">
+                      Certificación:
+                    </span>
+                    {equipo.certificaciones_chips.map((cert) => (
+                      <span class="inline-flex items-center rounded border border-neutral-300/80 bg-neutral-100 px-1.5 py-0.5 font-mono text-[10.5px] font-bold text-neutral-800">
+                        {cert}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+              <div class="mt-4 flex-1" />
+
+              {/* ACCIONES: Botón de WhatsApp dominante + enlace secundario limpio */}
+              <div class="flex flex-col gap-2 pt-3 border-t border-neutral-100">
+                <a
+                  href={whatsappLink(equipo.mensaje_whatsapp)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group inline-flex h-11 sm:h-12 w-full items-center justify-center gap-2 rounded-md border border-[#20ba5a] bg-[#25D366] px-4 font-display text-sm font-bold tracking-wider text-neutral-950 uppercase shadow-xs transition-all duration-200 hover:bg-[#20ba5a] hover:shadow-sm active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
                 >
-                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.97L2 22l5.25-1.38c1.45.79 3.08 1.2 4.79 1.2h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm0 18.02h-.01c-1.5 0-2.97-.4-4.26-1.17l-.3-.18-3.12.82.83-3.04-.2-.31a8.24 8.24 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.82 2.41a8.16 8.16 0 0 1 2.41 5.83c0 4.54-3.7 8.25-8.16 8.25Zm4.53-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.06-.39-2.02-1.25-.75-.66-1.25-1.48-1.39-1.73-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.42.06-.64.31-.22.25-.85.83-.85 2.02 0 1.19.87 2.34.99 2.5.12.17 1.7 2.6 4.12 3.64.58.25 1.02.4 1.37.51.58.19 1.1.16 1.52.1.46-.07 1.47-.6 1.68-1.19.21-.58.21-1.08.15-1.19-.06-.1-.23-.16-.48-.29Z" />
-                </svg>
-                <span>Cotizar por WhatsApp</span>
-              </a>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    class="size-4.5 shrink-0 transition-transform group-hover:scale-110 text-neutral-950"
+                  >
+                    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.97L2 22l5.25-1.38c1.45.79 3.08 1.2 4.79 1.2h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm0 18.02h-.01c-1.5 0-2.97-.4-4.26-1.17l-.3-.18-3.12.82.83-3.04-.2-.31a8.24 8.24 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.82 2.41a8.16 8.16 0 0 1 2.41 5.83c0 4.54-3.7 8.25-8.16 8.25Zm4.53-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.06-.39-2.02-1.25-.75-.66-1.25-1.48-1.39-1.73-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.42.06-.64.31-.22.25-.85.83-.85 2.02 0 1.19.87 2.34.99 2.5.12.17 1.7 2.6 4.12 3.64.58.25 1.02.4 1.37.51.58.19 1.1.16 1.52.1.46-.07 1.47-.6 1.68-1.19.21-.58.21-1.08.15-1.19-.06-.1-.23-.16-.48-.29Z" />
+                  </svg>
+                  <span>Cotizar por WhatsApp</span>
+                </a>
 
-              {/* Botón Ver Detalle */}
-              <button
-                type="button"
-                aria-label={`Ver detalle de ${equipo.nombre}`}
-                aria-haspopup="dialog"
-                data-open-modal={equipo.id}
-                data-producto-id={equipo.id}
-                class="group mt-2.5 inline-flex h-11 w-full cursor-pointer items-center justify-center gap-2.5 rounded-sm border border-foreground bg-white px-5 font-display text-sm font-semibold tracking-wide text-foreground uppercase transition-all hover:bg-foreground hover:text-background focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:scale-[0.99]"
-              >
-                <Eye
-                  class="size-4 shrink-0 transition-transform group-hover:scale-110"
-                  aria-hidden="true"
-                />
-                <span>Ver detalle</span>
-              </button>
+                {/* Enlace Secundario: Abre Modal sin competir visualmente */}
+                <button
+                  type="button"
+                  data-open-modal={equipo.id}
+                  data-producto-id={equipo.id}
+                  class="group inline-flex items-center justify-center gap-1.5 py-1 text-xs font-semibold tracking-wide text-neutral-600 hover:text-black transition-colors cursor-pointer focus:outline-none focus-visible:underline"
+                >
+                  <Eye
+                    class="size-3.5 text-neutral-400 group-hover:text-black transition-colors"
+                    aria-hidden="true"
+                  />
+                  <span>Ver galería de fotos y ficha completa &rarr;</span>
+                </button>
+              </div>
             </div>
           </li>
         ))
@@ -256,6 +175,6 @@ const maquinaria: ProductoModal[] = [
     </ul>
 
     {/* Componente Modal de Detalle de Producto */}
-    <ModalDetalleProducto maquinaria={maquinaria} telefono={telefono} />
+    <ModalDetalleProducto maquinaria={catalogo} telefono={WHATSAPP_NUMBER} />
   </div>
 </section>

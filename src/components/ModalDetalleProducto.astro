@@ -10,14 +10,25 @@ export interface Disponibilidad {
   detalle: string;
 }
 
+export interface VarianteModal {
+  id: string;
+  nombre_tab: string;
+  subtitulo?: string;
+  mensaje_whatsapp?: string;
+  imagenes?: string[];
+  especificaciones?: Especificacion[];
+}
+
 export interface ProductoModal {
   id: string;
   nombre: string;
   descripcion_corta: string;
   modalidad?: string;
+  mensaje_whatsapp?: string;
   imagenes?: string[];
   especificaciones?: Especificacion[];
   disponibilidad?: Disponibilidad;
+  variantes?: VarianteModal[];
 }
 
 interface Props {
@@ -69,15 +80,48 @@ const { maquinaria, telefono } = Astro.props;
     >
       <div
         id="modal-carrusel-contenedor"
-        class="group relative flex items-center justify-center w-full aspect-16/10 md:aspect-4/3 overflow-hidden rounded-xl bg-neutral-100/90 shadow-inner select-none p-3 sm:p-5"
+        class="group relative flex items-center justify-center w-full aspect-4/3 overflow-hidden rounded-xl bg-neutral-100/90 shadow-inner select-none p-2 sm:p-4"
       >
-        <!-- Imagen visible del carrusel -->
-        <img
-          id="modal-imagen-principal"
-          src=""
-          alt="Imagen del equipo"
-          class="h-full w-full object-contain object-center drop-shadow-sm transition-opacity duration-300"
-        />
+        <!-- Imagen visible del carrusel con cursor zoom-in -->
+        <button
+          type="button"
+          id="modal-carrusel-img-trigger"
+          aria-label="Tocar para ver en pantalla completa"
+          class="relative h-full w-full flex items-center justify-center cursor-zoom-in outline-none focus:outline-none select-none [-webkit-tap-highlight-color:transparent]"
+        >
+          <img
+            id="modal-imagen-principal"
+            src=""
+            alt="Imagen del equipo"
+            class="h-full w-full object-contain object-center drop-shadow-sm transition-opacity duration-300 pointer-events-none"
+          />
+        </button>
+
+        <!-- Botón flotante para expandir a pantalla completa (Lightbox) -->
+        <button
+          id="modal-btn-expandir-fullscreen"
+          type="button"
+          aria-label="Ver imagen a pantalla completa"
+          class="absolute bottom-3 left-1/2 -translate-x-1/2 sm:bottom-auto sm:top-3 sm:right-3 sm:left-auto sm:translate-x-0 z-10 flex items-center gap-1.5 rounded-lg bg-neutral-900/85 hover:bg-neutral-950 text-white px-3 py-1.5 sm:px-2.5 sm:py-1 text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] active:scale-95 whitespace-nowrap"
+        >
+          <svg
+            class="size-3.5 shrink-0"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+            ></path>
+          </svg>
+          <span class="text-[11px] font-bold uppercase tracking-wider"
+            >Ampliar</span
+          >
+        </button>
 
         <!-- Placeholder cuando no hay imagen disponible -->
         <div
@@ -161,10 +205,10 @@ const { maquinaria, telefono } = Astro.props;
     <!-- COLUMNA DERECHA: Datos del Producto, Especificaciones y Acciones -->
     <div class="flex w-full md:w-[46%] flex-col justify-between pt-1">
       <div>
-        <!-- Badge de Modalidad Comercial -->
+        <!-- Badge de Modalidad Comercial (Plano estático) -->
         <span
           id="modal-producto-modalidad"
-          class="hidden mb-2 rounded-full bg-neutral-100 px-3 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-neutral-600"
+          class="hidden mb-2 items-center rounded border border-neutral-800 bg-neutral-900 px-2.5 py-0.5 font-display text-[11px] font-bold uppercase tracking-wider text-white"
         >
         </span>
 
@@ -179,6 +223,24 @@ const { maquinaria, telefono } = Astro.props;
           class="mt-1.5 text-xs sm:text-sm leading-relaxed text-neutral-500"
         >
         </p>
+
+        <!-- Selector de Pestañas / Variantes por Tonelaje (ej. Grúas Pluma) -->
+        <div
+          id="modal-tabs-variantes-bloque"
+          class="hidden mt-4 pt-3.5 border-t border-neutral-100"
+        >
+          <span class="block text-[11px] font-bold uppercase tracking-wider text-neutral-500 mb-2">
+            Seleccionar Tonelaje / Capacidad:
+          </span>
+          <div
+            id="modal-tabs-variantes-lista"
+            class="flex items-center gap-1.5 p-1 rounded-lg bg-neutral-100 border border-neutral-200/90"
+            role="tablist"
+            aria-label="Capacidades de tonelaje disponibles"
+          >
+            <!-- Pestañas generadas dinámicamente -->
+          </div>
+        </div>
 
         <!-- Sección de Especificaciones Técnicas -->
         <div class="mt-4 sm:mt-5 border-t border-neutral-100 pt-3.5">
@@ -211,9 +273,9 @@ const { maquinaria, telefono } = Astro.props;
           </div>
           <p
             id="modal-disponibilidad-detalle"
-            class="mt-0.5 ml-4 text-[11px] font-normal text-neutral-400"
+            class="mt-0.5 ml-4 text-[11px] font-medium text-neutral-600"
           >
-            En stock - Listo para trabajar
+            Operativo para faena en terreno
           </p>
         </div>
       </div>
@@ -226,10 +288,10 @@ const { maquinaria, telefono } = Astro.props;
           href="#"
           target="_blank"
           rel="noopener noreferrer"
-          class="group flex w-full items-center justify-center gap-2 rounded-lg bg-[#18181b] hover:bg-black px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition-all active:scale-[0.99]"
+          class="group flex w-full items-center justify-center gap-2 rounded-lg border border-[#20ba5a] bg-[#25D366] hover:bg-[#20ba5a] px-4 py-3 text-xs font-bold uppercase tracking-wider text-neutral-950 shadow-sm transition-all active:scale-[0.99]"
         >
           <svg
-            class="size-4 shrink-0 fill-current text-white transition-transform group-hover:scale-110"
+            class="size-4 shrink-0 fill-current text-neutral-950 transition-transform group-hover:scale-110"
             viewBox="0 0 24 24"
             aria-hidden="true"
           >
@@ -249,6 +311,136 @@ const { maquinaria, telefono } = Astro.props;
           Cerrar
         </button>
       </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- Lightbox a Pantalla Completa (Full-Screen Lightbox) para inspección técnica en terreno -->
+<dialog
+  id="modal-lightbox-dialog"
+  aria-label="Visor de imagen a pantalla completa"
+  class="fixed inset-0 m-0 h-screen w-screen max-h-none max-w-none bg-black/95 text-white p-0 border-0 overflow-hidden backdrop:bg-black/95 z-[100]"
+>
+  <div class="relative flex flex-col h-full w-full justify-between p-4 sm:p-6">
+    <!-- Header del Lightbox: Título del equipo, contador y botón de cierre táctil -->
+    <div class="flex items-center justify-between gap-4 z-20 shrink-0">
+      <div class="flex flex-col">
+        <span
+          id="lightbox-producto-nombre"
+          class="font-display text-sm sm:text-base font-bold tracking-wider uppercase text-neutral-200"
+        >
+        </span>
+        <span
+          id="lightbox-contador"
+          class="text-xs font-medium text-neutral-400"
+        >
+          Foto 1 de 1
+        </span>
+      </div>
+
+      <button
+        id="lightbox-btn-cerrar"
+        type="button"
+        aria-label="Cerrar visor de pantalla completa"
+        class="flex size-11 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 active:bg-white/30 text-white transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]"
+      >
+        <svg
+          class="size-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Contenedor Central de Imagen y Flechas de Navegación -->
+    <div
+      id="lightbox-carrusel-contenedor"
+      class="relative flex-1 flex items-center justify-center w-full min-h-0 py-2 select-none overflow-hidden"
+    >
+      <img
+        id="lightbox-imagen-principal"
+        src=""
+        alt="Foto ampliada del equipo"
+        class="max-h-full max-w-full object-contain drop-shadow-2xl transition-opacity duration-200 pointer-events-none"
+      />
+
+      <!-- Flecha Anterior -->
+      <button
+        id="lightbox-btn-prev"
+        type="button"
+        aria-label="Foto anterior"
+        class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 flex size-12 items-center justify-center rounded-full bg-black/60 hover:bg-black/90 active:scale-95 text-white border border-white/10 backdrop-blur-md transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]"
+      >
+        <svg
+          class="size-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+
+      <!-- Flecha Siguiente -->
+      <button
+        id="lightbox-btn-next"
+        type="button"
+        aria-label="Siguiente foto"
+        class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 flex size-12 items-center justify-center rounded-full bg-black/60 hover:bg-black/90 active:scale-95 text-white border border-white/10 backdrop-blur-md transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]"
+      >
+        <svg
+          class="size-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          viewBox="0 0 24 24"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Footer del Lightbox: Dots centrados + Botón de WhatsApp debajo -->
+    <div
+      class="flex flex-col items-center justify-center gap-2.5 pt-2 z-20 shrink-0 w-full"
+    >
+      <div
+        id="lightbox-dots"
+        class="flex items-center justify-center gap-2"
+      >
+        <!-- Dots dinámicos -->
+      </div>
+
+      <a
+        id="lightbox-btn-whatsapp"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#25D366] hover:bg-[#20ba5a] active:scale-[0.99] px-6 text-xs font-bold uppercase tracking-wider text-neutral-950 shadow-md transition-all cursor-pointer"
+      >
+        <svg
+          class="size-4 shrink-0 fill-current text-neutral-950"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.97L2 22l5.25-1.38c1.45.79 3.08 1.2 4.79 1.2h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm0 18.02h-.01c-1.5 0-2.97-.4-4.26-1.17l-.3-.18-3.12.82.83-3.04-.2-.31a8.24 8.24 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.82 2.41a8.16 8.16 0 0 1 2.41 5.83c0 4.54-3.7 8.25-8.16 8.25Zm4.53-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.06-.39-2.02-1.25-.75-.66-1.25-1.48-1.39-1.73-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.42.06-.64.31-.22.25-.85.83-.85 2.02 0 1.19.87 2.34.99 2.5.12.17 1.7 2.6 4.12 3.64.58.25 1.02.4 1.37.51.58.19 1.1.16 1.52.1.46-.07 1.47-.6 1.68-1.19.21-.58.21-1.08.15-1.19-.06-.1-.23-.16-.48-.29Z"
+          ></path>
+        </svg>
+        <span>Cotizar este equipo por WhatsApp</span>
+      </a>
     </div>
   </div>
 </dialog>
@@ -275,6 +467,15 @@ const { maquinaria, telefono } = Astro.props;
     if (!dialogElement || !datosScript || !telScript) return;
     const dialog = dialogElement as HTMLDialogElement;
 
+    interface VarianteItem {
+      id: string;
+      nombre_tab: string;
+      subtitulo?: string;
+      mensaje_whatsapp?: string;
+      imagenes?: string[];
+      especificaciones?: EspecificacionItem[];
+    }
+
     interface EspecificacionItem {
       label: string;
       valor: string;
@@ -286,12 +487,14 @@ const { maquinaria, telefono } = Astro.props;
       nombre: string;
       descripcion_corta: string;
       modalidad?: string;
+      mensaje_whatsapp?: string;
       imagenes?: string[];
       especificaciones?: EspecificacionItem[];
       disponibilidad?: {
         estado?: string;
         detalle?: string;
       };
+      variantes?: VarianteItem[];
     }
 
     let productos: ProductoItem[] = [];
@@ -309,18 +512,15 @@ const { maquinaria, telefono } = Astro.props;
     const nombreEl = document.getElementById("modal-producto-nombre");
     const descEl = document.getElementById("modal-producto-descripcion");
     const specsEl = document.getElementById("modal-especificaciones-lista");
-    const dispEstadoEl = document.getElementById("modal-disponibilidad-estado");
-    const dispDetalleEl = document.getElementById(
-      "modal-disponibilidad-detalle",
-    );
-    const dispBloque = document.getElementById("modal-disponibilidad-bloque");
+    const tabsBloque = document.getElementById("modal-tabs-variantes-bloque");
+    const tabsLista = document.getElementById("modal-tabs-variantes-lista");
     const btnWhatsapp = document.getElementById(
       "modal-btn-whatsapp",
     ) as HTMLAnchorElement | null;
     const btnCerrarX = document.getElementById("modal-btn-cerrar-x");
     const btnCerrarSec = document.getElementById("modal-btn-cerrar-secundario");
 
-    // Elementos del Carrusel
+    // Elementos del Carrusel Modal
     const carruselContenedor = document.getElementById(
       "modal-carrusel-contenedor",
     );
@@ -331,9 +531,36 @@ const { maquinaria, telefono } = Astro.props;
     const btnPrev = document.getElementById("modal-carrusel-btn-prev");
     const btnNext = document.getElementById("modal-carrusel-btn-next");
     const dotsContainer = document.getElementById("modal-carrusel-dots");
+    const btnExpandir = document.getElementById(
+      "modal-btn-expandir-fullscreen",
+    );
+    const triggerImgModal = document.getElementById(
+      "modal-carrusel-img-trigger",
+    );
+
+    // Elementos del Lightbox Fullscreen
+    const lightboxDialog = document.getElementById(
+      "modal-lightbox-dialog",
+    ) as HTMLDialogElement | null;
+    const lightboxImg = document.getElementById(
+      "lightbox-imagen-principal",
+    ) as HTMLImageElement | null;
+    const lightboxContador = document.getElementById("lightbox-contador");
+    const lightboxNombre = document.getElementById("lightbox-producto-nombre");
+    const lightboxBtnWhatsapp = document.getElementById(
+      "lightbox-btn-whatsapp",
+    ) as HTMLAnchorElement | null;
+    const lightboxBtnCerrar = document.getElementById("lightbox-btn-cerrar");
+    const lightboxBtnPrev = document.getElementById("lightbox-btn-prev");
+    const lightboxBtnNext = document.getElementById("lightbox-btn-next");
+    const lightboxDots = document.getElementById("lightbox-dots");
+    const lightboxContenedor = document.getElementById(
+      "lightbox-carrusel-contenedor",
+    );
 
     let imagenesActuales: string[] = [];
     let indiceActual = 0;
+    let productoActual: ProductoItem | null = null;
 
     // Iconos SVG para especificaciones técnicas
     function obtenerIconoSpec(tipo?: string) {
@@ -366,12 +593,14 @@ const { maquinaria, telefono } = Astro.props;
         if (imgPlaceholder) imgPlaceholder.classList.remove("hidden");
         if (btnPrev) btnPrev.classList.add("hidden");
         if (btnNext) btnNext.classList.add("hidden");
+        if (btnExpandir) btnExpandir.classList.add("hidden");
         dotsContainer.innerHTML = "";
         return;
       }
 
       if (imgPlaceholder) imgPlaceholder.classList.add("hidden");
       imgEl.classList.remove("hidden");
+      if (btnExpandir) btnExpandir.classList.remove("hidden");
 
       // Circular index
       indiceActual =
@@ -383,7 +612,7 @@ const { maquinaria, telefono } = Astro.props;
       if (btnPrev) btnPrev.style.display = tieneMultiples ? "flex" : "none";
       if (btnNext) btnNext.style.display = tieneMultiples ? "flex" : "none";
 
-      // Actualizar dots
+      // Actualizar dots en carrusel del modal
       dotsContainer.innerHTML = "";
       if (tieneMultiples) {
         imagenesActuales.forEach((_, i) => {
@@ -398,11 +627,47 @@ const { maquinaria, telefono } = Astro.props;
           dotsContainer.appendChild(dot);
         });
       }
+
+      // Sincronizar Lightbox si está abierto
+      if (lightboxDialog && lightboxDialog.open) {
+        sincronizarLightbox();
+      }
+    }
+
+    function sincronizarLightbox() {
+      if (!lightboxImg || imagenesActuales.length === 0) return;
+      const tieneMultiples = imagenesActuales.length > 1;
+      lightboxImg.src = imagenesActuales[indiceActual];
+      if (lightboxContador) {
+        lightboxContador.textContent = `Foto ${indiceActual + 1} de ${imagenesActuales.length}`;
+      }
+      if (lightboxBtnPrev)
+        lightboxBtnPrev.style.display = tieneMultiples ? "flex" : "none";
+      if (lightboxBtnNext)
+        lightboxBtnNext.style.display = tieneMultiples ? "flex" : "none";
+
+      if (lightboxDots) {
+        lightboxDots.innerHTML = "";
+        if (tieneMultiples) {
+          imagenesActuales.forEach((_, i) => {
+            const dot = document.createElement("button");
+            dot.type = "button";
+            dot.setAttribute("aria-label", `Foto ${i + 1}`);
+            dot.className =
+              i === indiceActual
+                ? "size-2.5 rounded-full bg-white transition-all cursor-pointer"
+                : "size-2 rounded-full bg-white/40 hover:bg-white/70 transition-all cursor-pointer";
+            dot.addEventListener("click", () => actualizarSlide(i));
+            lightboxDots.appendChild(dot);
+          });
+        }
+      }
     }
 
     function abrirModal(id: string) {
       const producto = productos.find((p) => p.id === id);
       if (!producto) return;
+      productoActual = producto;
 
       // Modalidad comercial
       if (modalidadEl) {
@@ -417,19 +682,10 @@ const { maquinaria, telefono } = Astro.props;
       if (nombreEl) nombreEl.textContent = producto.nombre;
       if (descEl) descEl.textContent = producto.descripcion_corta;
 
-      // Galería de imágenes
-      imagenesActuales =
-        Array.isArray(producto.imagenes) && producto.imagenes.length > 0
-          ? producto.imagenes
-          : [];
-      actualizarSlide(0);
-
-      // Especificaciones técnicas
-      if (specsEl) {
+      // Renderizador reutilizable de especificaciones técnicas
+      function renderizarEspecificaciones(specs: EspecificacionItem[]) {
+        if (!specsEl) return;
         specsEl.innerHTML = "";
-        const specs = Array.isArray(producto.especificaciones)
-          ? producto.especificaciones
-          : [];
         if (specs.length === 0) {
           specsEl.innerHTML = `<p class="text-neutral-400 italic text-xs">Especificaciones disponibles a solicitud del cliente.</p>`;
         } else {
@@ -449,30 +705,117 @@ const { maquinaria, telefono } = Astro.props;
         }
       }
 
-      // Disponibilidad (datos desde el objeto/JSON del producto)
-      if (dispBloque) {
-        if (producto.disponibilidad) {
-          dispBloque.classList.remove("hidden");
-          if (dispEstadoEl)
-            dispEstadoEl.textContent =
-              producto.disponibilidad.estado || "Disponible para arriendo";
-          if (dispDetalleEl)
-            dispDetalleEl.textContent =
-              producto.disponibilidad.detalle ||
-              "En stock - Listo para trabajar";
+      function seleccionarVariante(indice: number) {
+        if (!producto) return;
+        const itemProducto = producto;
+        if (!itemProducto.variantes) return;
+        const variante = itemProducto.variantes[indice];
+        if (!variante) return;
+
+        // 1. Estilos de pestañas activas e inactivas
+        if (tabsLista) {
+          const botones = tabsLista.querySelectorAll("button");
+          botones.forEach((btn, i) => {
+            if (i === indice) {
+              btn.className =
+                "flex-1 py-1.5 px-3 text-center rounded-md bg-neutral-900 text-white font-display text-xs font-bold uppercase tracking-wider shadow-xs cursor-pointer transition-all";
+              btn.setAttribute("aria-selected", "true");
+            } else {
+              btn.className =
+                "flex-1 py-1.5 px-3 text-center rounded-md text-neutral-600 hover:text-black hover:bg-white/80 font-display text-xs font-semibold uppercase tracking-wider cursor-pointer transition-all";
+              btn.setAttribute("aria-selected", "false");
+            }
+          });
+        }
+
+        // 2. Galería de fotos correspondiente a la variante
+        if (Array.isArray(variante.imagenes) && variante.imagenes.length > 0) {
+          imagenesActuales = variante.imagenes;
         } else {
-          dispBloque.classList.remove("hidden");
-          if (dispEstadoEl)
-            dispEstadoEl.textContent = "Disponible para arriendo";
-          if (dispDetalleEl)
-            dispDetalleEl.textContent = "En stock - Listo para trabajar";
+          imagenesActuales =
+            Array.isArray(itemProducto.imagenes) ? itemProducto.imagenes : [];
+        }
+        actualizarSlide(0);
+
+        // 3. Especificaciones técnicas de la variante
+        const specs =
+          Array.isArray(variante.especificaciones) &&
+          variante.especificaciones.length > 0
+            ? variante.especificaciones
+            : Array.isArray(itemProducto.especificaciones)
+              ? itemProducto.especificaciones
+              : [];
+        renderizarEspecificaciones(specs);
+
+        // 4. Mensaje contextualizado de WhatsApp al tonelaje
+        if (btnWhatsapp) {
+          const mensaje =
+            variante.mensaje_whatsapp ||
+            itemProducto.mensaje_whatsapp ||
+            `Hola Rodrigo, me interesa cotizar el ${itemProducto.nombre}`;
+          btnWhatsapp.href = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
         }
       }
 
-      // Botón WhatsApp inteligente pre-llenado
-      if (btnWhatsapp) {
-        const mensaje = `Hola, me interesa cotizar el ${producto.nombre}`;
-        btnWhatsapp.href = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+      // Si el producto tiene variantes por capacidad (ej. Grúa Pluma de 500kg, 1T, 2T)
+      if (tabsBloque && tabsLista) {
+        if (Array.isArray(producto.variantes) && producto.variantes.length > 0) {
+          tabsBloque.classList.remove("hidden");
+          tabsLista.innerHTML = "";
+          producto.variantes.forEach((variante, idx) => {
+            const tabBtn = document.createElement("button");
+            tabBtn.type = "button";
+            tabBtn.setAttribute("role", "tab");
+            tabBtn.textContent = variante.nombre_tab;
+            tabBtn.addEventListener("click", () => {
+              seleccionarVariante(idx);
+            });
+            tabsLista.appendChild(tabBtn);
+          });
+          seleccionarVariante(0);
+        } else {
+          tabsBloque.classList.add("hidden");
+          tabsLista.innerHTML = "";
+
+          // Galería estándar
+          imagenesActuales =
+            Array.isArray(producto.imagenes) && producto.imagenes.length > 0
+              ? producto.imagenes
+              : [];
+          actualizarSlide(0);
+
+          // Especificaciones estándar
+          const specs = Array.isArray(producto.especificaciones)
+            ? producto.especificaciones
+            : [];
+          renderizarEspecificaciones(specs);
+
+          // WhatsApp estándar
+          if (btnWhatsapp) {
+            const mensaje =
+              producto.mensaje_whatsapp ||
+              `Hola Rodrigo, me interesa cotizar el ${producto.nombre}`;
+            btnWhatsapp.href = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+          }
+        }
+      } else {
+        // Fallback sin variantes
+        imagenesActuales =
+          Array.isArray(producto.imagenes) && producto.imagenes.length > 0
+            ? producto.imagenes
+            : [];
+        actualizarSlide(0);
+        renderizarEspecificaciones(
+          Array.isArray(producto.especificaciones)
+            ? producto.especificaciones
+            : [],
+        );
+        if (btnWhatsapp) {
+          const mensaje =
+            producto.mensaje_whatsapp ||
+            `Hola Rodrigo, me interesa cotizar el ${producto.nombre}`;
+          btnWhatsapp.href = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+        }
       }
 
       // Bloquear scroll de fondo y abrir dialog nativo
@@ -496,12 +839,41 @@ const { maquinaria, telefono } = Astro.props;
       document.body.style.overflow = "";
       dialog.close();
       if (disparadorAnterior) {
-        disparadorAnterior.focus({ preventScroll: true });
+        if (disparadorAnterior.getAttribute("data-trigger-type") !== "photo") {
+          disparadorAnterior.focus({ preventScroll: true });
+        } else {
+          disparadorAnterior.blur();
+        }
         disparadorAnterior = null;
       }
     }
 
-    // Listeners de cierre
+    // Funciones del Lightbox Fullscreen
+    function abrirLightbox() {
+      if (!lightboxDialog || imagenesActuales.length === 0) return;
+      if (lightboxNombre && productoActual) {
+        lightboxNombre.textContent = productoActual.nombre;
+      }
+      if (lightboxBtnWhatsapp && productoActual) {
+        if (btnWhatsapp) {
+          lightboxBtnWhatsapp.href = btnWhatsapp.href;
+        } else {
+          const mensaje =
+            productoActual.mensaje_whatsapp ||
+            `Hola Rodrigo, me interesa cotizar el ${productoActual.nombre}`;
+          lightboxBtnWhatsapp.href = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+        }
+      }
+      lightboxDialog.showModal();
+      sincronizarLightbox();
+    }
+
+    function cerrarLightbox() {
+      if (!lightboxDialog) return;
+      lightboxDialog.close();
+    }
+
+    // Listeners de cierre del modal principal
     if (btnCerrarX) btnCerrarX.addEventListener("click", cerrarModal);
     if (btnCerrarSec) btnCerrarSec.addEventListener("click", cerrarModal);
 
@@ -517,12 +889,16 @@ const { maquinaria, telefono } = Astro.props;
     dialog.addEventListener("close", () => {
       document.body.style.overflow = "";
       if (disparadorAnterior) {
-        disparadorAnterior.focus({ preventScroll: true });
+        if (disparadorAnterior.getAttribute("data-trigger-type") !== "photo") {
+          disparadorAnterior.focus({ preventScroll: true });
+        } else {
+          disparadorAnterior.blur();
+        }
         disparadorAnterior = null;
       }
     });
 
-    // Controles del Carrusel: Botones Prev / Next
+    // Controles del Carrusel Modal: Botones Prev / Next
     if (btnPrev) {
       btnPrev.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -537,7 +913,71 @@ const { maquinaria, telefono } = Astro.props;
       });
     }
 
-    // Soporte Touch Swipe en móviles
+    // Disparadores del Lightbox
+    if (btnExpandir) {
+      btnExpandir.addEventListener("click", (e) => {
+        e.stopPropagation();
+        btnExpandir.blur();
+        abrirLightbox();
+      });
+    }
+
+    if (triggerImgModal) {
+      triggerImgModal.addEventListener("click", (e) => {
+        e.stopPropagation();
+        triggerImgModal.blur();
+        abrirLightbox();
+      });
+    }
+
+    // Controles del Lightbox
+    if (lightboxBtnCerrar) {
+      lightboxBtnCerrar.addEventListener("click", (e) => {
+        e.stopPropagation();
+        cerrarLightbox();
+      });
+    }
+
+    if (lightboxBtnPrev) {
+      lightboxBtnPrev.addEventListener("click", (e) => {
+        e.stopPropagation();
+        actualizarSlide(indiceActual - 1);
+      });
+    }
+
+    if (lightboxBtnNext) {
+      lightboxBtnNext.addEventListener("click", (e) => {
+        e.stopPropagation();
+        actualizarSlide(indiceActual + 1);
+      });
+    }
+
+    if (lightboxDialog) {
+      lightboxDialog.addEventListener("click", (event) => {
+        if (event.target === lightboxDialog) {
+          cerrarLightbox();
+        }
+      });
+    }
+
+    // Navegación por teclado global (para Lightbox)
+    window.addEventListener("keydown", (e) => {
+      if (lightboxDialog && lightboxDialog.open) {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          e.stopPropagation();
+          cerrarLightbox();
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          actualizarSlide(indiceActual - 1);
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          actualizarSlide(indiceActual + 1);
+        }
+      }
+    });
+
+    // Soporte Touch Swipe en carrusel del modal
     if (carruselContenedor) {
       let touchStartX = 0;
       let touchEndX = 0;
@@ -574,10 +1014,49 @@ const { maquinaria, telefono } = Astro.props;
       );
     }
 
+    // Soporte Touch Swipe en Lightbox fullscreen
+    if (lightboxContenedor) {
+      let lbTouchStartX = 0;
+      let lbTouchEndX = 0;
+      let lbTouchStartY = 0;
+      let lbTouchEndY = 0;
+
+      lightboxContenedor.addEventListener(
+        "touchstart",
+        (e) => {
+          lbTouchStartX = e.changedTouches[0].screenX;
+          lbTouchStartY = e.changedTouches[0].screenY;
+        },
+        { passive: true },
+      );
+
+      lightboxContenedor.addEventListener(
+        "touchend",
+        (e) => {
+          lbTouchEndX = e.changedTouches[0].screenX;
+          lbTouchEndY = e.changedTouches[0].screenY;
+          const deltaX = lbTouchEndX - lbTouchStartX;
+          const deltaY = lbTouchEndY - lbTouchStartY;
+
+          if (Math.abs(deltaX) > 35 && Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX < 0) {
+              actualizarSlide(indiceActual + 1);
+            } else {
+              actualizarSlide(indiceActual - 1);
+            }
+          }
+        },
+        { passive: true },
+      );
+    }
+
     // Vincular todos los botones de "Ver detalle" del catálogo
     document.querySelectorAll("[data-open-modal]").forEach((boton) => {
       boton.addEventListener("click", () => {
         disparadorAnterior = boton as HTMLElement;
+        if (boton.getAttribute("data-trigger-type") === "photo") {
+          (boton as HTMLElement).blur();
+        }
         const id = boton.getAttribute("data-open-modal");
         if (id) abrirModal(id);
       });

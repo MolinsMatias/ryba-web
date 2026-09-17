@@ -7,7 +7,7 @@ interface Props {
 }
 
 const {
-  title = "RYBA SpA | Arriendo de Maquinaria Pesada, Venta y Servicios",
+  title = "RYBA Equipos | Arriendo de Maquinaria Pesada, Venta y Servicios",
   description = "Flota propia con respaldo técnico, traslado incluido y operadores certificados para minería, construcción e industria.",
 } = Astro.props;
 ---
@@ -16,26 +16,46 @@ const {
 <html lang="es" class="scroll-smooth bg-[#151515]">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <meta name="generator" content={Astro.generator} />
-    
+
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="keywords" content="arriendo maquinaria pesada, RYBA SpA, excavadora en arriendo, grúa horquilla, fletes industriales, montaje industrial" />
-    
+    <meta
+      name="keywords"
+      content="arriendo maquinaria pesada, RYBA Equipos, excavadora en arriendo, grúa horquilla, fletes industriales, montaje industrial"
+    />
+
     <!-- Status Bar & Theme Color para Safari iOS y Chrome Android -->
     <meta name="theme-color" content="#151515" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="RYBA SpA | Arriendo de Maquinaria Pesada" />
+    <meta
+      property="og:title"
+      content="RYBA Equipos | Venta y arriendo de equipos"
+    />
     <meta property="og:description" content={description} />
 
     <!-- Favicons -->
-    <link rel="icon" href="/icon-light-32x32.png" media="(prefers-color-scheme: light)" />
-    <link rel="icon" href="/icon-dark-32x32.png" media="(prefers-color-scheme: dark)" />
+    <link
+      rel="icon"
+      href="/icon-light-32x32.png"
+      media="(prefers-color-scheme: light)"
+    />
+    <link
+      rel="icon"
+      href="/icon-dark-32x32.png"
+      media="(prefers-color-scheme: dark)"
+    />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
 
