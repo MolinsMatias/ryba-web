@@ -79,11 +79,9 @@ const { maquinaria, telefono } = Astro.props;
         id="modal-carrusel-contenedor"
         class="group relative flex items-center justify-center w-full aspect-4/3 overflow-hidden rounded-xl bg-neutral-100/90 shadow-inner select-none p-2 sm:p-4"
       >
-        <button
-          type="button"
+        <div
           id="modal-carrusel-img-trigger"
-          aria-label="Tocar para ver en pantalla completa"
-          class="relative h-full w-full flex items-center justify-center cursor-zoom-in outline-none focus:outline-none select-none [-webkit-tap-highlight-color:transparent]"
+          class="relative h-full w-full flex items-center justify-center outline-none select-none [-webkit-tap-highlight-color:transparent]"
         >
           <img
             id="modal-imagen-principal"
@@ -91,7 +89,7 @@ const { maquinaria, telefono } = Astro.props;
             alt="Imagen del equipo"
             class="h-full w-full object-contain object-center drop-shadow-sm transition-opacity duration-300 pointer-events-none"
           />
-        </button>
+        </div>
 
         <button
           id="modal-btn-expandir-fullscreen"
@@ -484,9 +482,6 @@ const { maquinaria, telefono } = Astro.props;
     const btnExpandir = document.getElementById(
       "modal-btn-expandir-fullscreen",
     );
-    const triggerImgModal = document.getElementById(
-      "modal-carrusel-img-trigger",
-    );
 
     // Elementos del Lightbox Fullscreen
     const lightboxDialog = document.getElementById(
@@ -823,6 +818,24 @@ const { maquinaria, telefono } = Astro.props;
       window.__lenis?.stop();
       lightboxDialog.showModal();
       sincronizarLightbox();
+      // Enfocar el botón cerrar sin activar el anillo focus-visible en mobile
+      if (lightboxBtnCerrar) {
+        requestAnimationFrame(() => {
+          lightboxBtnCerrar.focus({ preventScroll: true });
+          // Quitar el anillo visual inmediatamente en dispositivos táctiles
+          lightboxBtnCerrar.addEventListener(
+            "blur",
+            () => {
+              /* el ring se oculta al perder foco */
+            },
+            { once: true },
+          );
+          // Si fue activado por touch, limpiar el focus-visible
+          if (window.matchMedia("(pointer: coarse)").matches) {
+            lightboxBtnCerrar.blur();
+          }
+        });
+      }
     }
 
     function cerrarLightbox() {
@@ -883,13 +896,8 @@ const { maquinaria, telefono } = Astro.props;
       });
     }
 
-    if (triggerImgModal) {
-      triggerImgModal.addEventListener("click", (e) => {
-        e.stopPropagation();
-        triggerImgModal.blur();
-        abrirLightbox();
-      });
-    }
+    // El lightbox solo se abre desde el botón "Ampliar" (btnExpandir)
+    // No se abre al hacer clic en la imagen directamente
 
     // Controles del Lightbox
     if (lightboxBtnCerrar) {
