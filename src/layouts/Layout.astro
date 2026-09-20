@@ -71,7 +71,7 @@ const {
   <body class="font-sans antialiased bg-[#151515] text-foreground min-h-screen">
     <slot />
 
-    <!-- Script de Smooth Scroll con Lenis -->
+    <!-- Script de Smooth Scroll con Lenis (exclusivo para desktop) -->
     <script>
       import Lenis from "lenis";
 
@@ -81,9 +81,30 @@ const {
         }
       }
 
+      function isMobile() {
+        return (
+          window.matchMedia("(max-width: 768px)").matches ||
+          window.matchMedia("(pointer: coarse)").matches ||
+          "ontouchstart" in window
+        );
+      }
+
+      let rafId: number | null = null;
+
       function setupSmoothScroll() {
+        // Limpiar instancia previa si existe
         if (window.__lenis) {
+          if (rafId !== null) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
           window.__lenis.destroy();
+          window.__lenis = undefined;
+        }
+
+        // Si es dispositivo móvil o táctil, NO activamos Lenis para evitar lag y mantener rendimiento nativo fluido a 120Hz
+        if (isMobile()) {
+          return;
         }
 
         const lenis = new Lenis({
@@ -96,15 +117,19 @@ const {
         window.__lenis = lenis;
 
         function raf(time: number) {
+          if (!window.__lenis) return;
           lenis.raf(time);
-          requestAnimationFrame(raf);
+          rafId = requestAnimationFrame(raf);
         }
-        requestAnimationFrame(raf);
+        rafId = requestAnimationFrame(raf);
 
-        // Suavizado premium al hacer clic en enlaces ancla (#inicio, #catalogo, etc.)
+        // Suavizado premium exclusivo en desktop al hacer clic en enlaces ancla (#inicio, #catalogo, etc.)
         const anchorLinks = document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]');
         anchorLinks.forEach((anchor) => {
           anchor.addEventListener("click", (e) => {
+            // En móvil dejamos que el navegador navegue nativamente de forma instantánea
+            if (isMobile() || !window.__lenis) return;
+
             const href = anchor.getAttribute("href");
             if (!href || href === "#") return;
             const target = document.querySelector<HTMLElement>(href);
@@ -128,6 +153,9 @@ const {
 
       setupSmoothScroll();
       document.addEventListener("astro:page-load", setupSmoothScroll);
+      window.addEventListener("resize", () => {
+        setupSmoothScroll();
+      });
     </script>
   </body>
 </html>

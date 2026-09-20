@@ -257,7 +257,7 @@ import { whatsappLink } from "@/lib/site";
         iconMenu?.classList.add("hidden");
         iconClose?.classList.remove("hidden");
         document.body.style.overflow = "hidden";
-        (window as any).__lenis?.stop();
+        window.__lenis?.stop();
       } else {
         // Cerrar menú
         mobileMenu?.classList.remove(
@@ -277,7 +277,7 @@ import { whatsappLink } from "@/lib/site";
         iconMenu?.classList.remove("hidden");
         iconClose?.classList.add("hidden");
         document.body.style.overflow = "unset";
-        (window as any).__lenis?.start();
+        window.__lenis?.start();
       }
 
       handleScroll();

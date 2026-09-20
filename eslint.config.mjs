@@ -11,6 +11,7 @@ export default [
       "node_modules/**",
       "src/components/*.html",
       "public/**",
+      ".agents/**",
     ],
   },
 ];

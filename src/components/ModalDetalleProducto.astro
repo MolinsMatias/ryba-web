@@ -822,7 +822,7 @@ const { maquinaria, telefono } = Astro.props;
 
       // Bloquear scroll de fondo y abrir dialog nativo
       document.body.style.overflow = "hidden";
-      (window as any).__lenis?.stop();
+      window.__lenis?.stop();
       dialog.showModal();
 
       // Evitar que el navegador autoenfoque la X al abrir el modal
@@ -840,7 +840,7 @@ const { maquinaria, telefono } = Astro.props;
 
     function cerrarModal() {
       document.body.style.overflow = "";
-      (window as any).__lenis?.start();
+      window.__lenis?.start();
       dialog.close();
       if (disparadorAnterior) {
         if (disparadorAnterior.getAttribute("data-trigger-type") !== "photo") {
@@ -868,7 +868,7 @@ const { maquinaria, telefono } = Astro.props;
           lightboxBtnWhatsapp.href = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
         }
       }
-      (window as any).__lenis?.stop();
+      window.__lenis?.stop();
       lightboxDialog.showModal();
       sincronizarLightbox();
     }
@@ -877,7 +877,7 @@ const { maquinaria, telefono } = Astro.props;
       if (!lightboxDialog) return;
       lightboxDialog.close();
       if (!dialog.open) {
-        (window as any).__lenis?.start();
+        window.__lenis?.start();
       }
     }
 
@@ -896,7 +896,7 @@ const { maquinaria, telefono } = Astro.props;
     // Restaurar scroll si se cierra con tecla ESC nativa
     dialog.addEventListener("close", () => {
       document.body.style.overflow = "";
-      (window as any).__lenis?.start();
+      window.__lenis?.start();
       if (disparadorAnterior) {
         if (disparadorAnterior.getAttribute("data-trigger-type") !== "photo") {
           disparadorAnterior.focus({ preventScroll: true });
