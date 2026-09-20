@@ -637,13 +637,13 @@ const { maquinaria, telefono } = Astro.props;
           specs.forEach((spec: EspecificacionItem) => {
             const row = document.createElement("div");
             row.className =
-              "flex items-center justify-between text-neutral-700";
+              "grid grid-cols-[auto_1fr] items-baseline gap-x-4 text-neutral-700";
             row.innerHTML = `
-              <div class="flex items-center gap-2.5">
+              <div class="flex items-center gap-2.5 whitespace-nowrap">
                 ${obtenerIconoSpec(spec.icono)}
                 <span>${spec.label}</span>
               </div>
-              <span class="font-semibold text-neutral-900">${spec.valor}</span>
+              <span class="font-semibold text-neutral-900 text-right break-words">${spec.valor}</span>
             `;
             specsEl.appendChild(row);
           });
