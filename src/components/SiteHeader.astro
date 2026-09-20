@@ -30,25 +30,37 @@ import { whatsappLink } from "@/lib/site";
     </a>
 
     <div
-      class="hidden md:flex items-center gap-7 text-[14px] font-medium text-neutral-300 shrink-0"
+      class="hidden md:flex items-center gap-7 text-[14px] font-medium shrink-0"
     >
       <a
         href="#catalogo"
-        class="nav-link hover:text-primary whitespace-nowrap transition-colors duration-200 py-1"
+        data-section="catalogo"
+        class="nav-link relative py-1 text-neutral-300 hover:text-primary whitespace-nowrap transition-colors duration-200"
       >
-        Catálogo
+        <span>Catálogo</span>
+        <span
+          class="nav-indicator absolute -bottom-0.5 left-0 right-0 h-[2px] bg-primary rounded-full scale-x-0 transition-transform duration-300 origin-center"
+        ></span>
       </a>
       <a
         href="#servicios"
-        class="nav-link hover:text-primary whitespace-nowrap transition-colors duration-200 py-1"
+        data-section="servicios"
+        class="nav-link relative py-1 text-neutral-300 hover:text-primary whitespace-nowrap transition-colors duration-200"
       >
-        Servicios
+        <span>Servicios</span>
+        <span
+          class="nav-indicator absolute -bottom-0.5 left-0 right-0 h-[2px] bg-primary rounded-full scale-x-0 transition-transform duration-300 origin-center"
+        ></span>
       </a>
       <a
         href="#nosotros"
-        class="nav-link hover:text-primary whitespace-nowrap transition-colors duration-200 py-1"
+        data-section="nosotros"
+        class="nav-link relative py-1 text-neutral-300 hover:text-primary whitespace-nowrap transition-colors duration-200"
       >
-        Nosotros
+        <span>Nosotros</span>
+        <span
+          class="nav-indicator absolute -bottom-0.5 left-0 right-0 h-[2px] bg-primary rounded-full scale-x-0 transition-transform duration-300 origin-center"
+        ></span>
       </a>
     </div>
 
@@ -127,21 +139,27 @@ import { whatsappLink } from "@/lib/site";
     <nav class="flex flex-col px-6 py-5 text-[15.5px] font-semibold text-left">
       <a
         href="#catalogo"
-        class="mobile-nav-link text-left text-neutral-200 hover:text-primary py-3.5 border-b border-white/10 transition-colors"
+        data-section="catalogo"
+        class="mobile-nav-link text-left text-neutral-200 hover:text-primary py-3.5 border-b border-white/10 transition-all flex items-center justify-between"
       >
-        Catálogo de Equipos
+        <span>Catálogo de Equipos</span>
+        <span class="mobile-nav-dot size-1.5 rounded-full bg-primary opacity-0 transition-opacity"></span>
       </a>
       <a
         href="#servicios"
-        class="mobile-nav-link text-left text-neutral-200 hover:text-primary py-3.5 border-b border-white/10 transition-colors"
+        data-section="servicios"
+        class="mobile-nav-link text-left text-neutral-200 hover:text-primary py-3.5 border-b border-white/10 transition-all flex items-center justify-between"
       >
-        Servicios
+        <span>Servicios</span>
+        <span class="mobile-nav-dot size-1.5 rounded-full bg-primary opacity-0 transition-opacity"></span>
       </a>
       <a
         href="#nosotros"
-        class="mobile-nav-link text-left text-neutral-200 hover:text-primary py-3.5 transition-colors"
+        data-section="nosotros"
+        class="mobile-nav-link text-left text-neutral-200 hover:text-primary py-3.5 transition-all flex items-center justify-between"
       >
-        Nosotros
+        <span>Nosotros</span>
+        <span class="mobile-nav-dot size-1.5 rounded-full bg-primary opacity-0 transition-opacity"></span>
       </a>
 
       <!-- Botón Cotizar dentro del menú hamburguesa -->
@@ -185,6 +203,93 @@ import { whatsappLink } from "@/lib/site";
     if (!nav || !menuBtn || !mobileMenu) return;
 
     let isMenuOpen = false;
+
+    // Scrollspy para destacar la sección activa al hacer scroll
+    const desktopNavLinks = document.querySelectorAll<HTMLAnchorElement>(
+      ".nav-link[data-section]",
+    );
+    const mobileNavLinks = document.querySelectorAll<HTMLAnchorElement>(
+      ".mobile-nav-link[data-section]",
+    );
+
+    const sectionIds = ["catalogo", "servicios", "nosotros"];
+    const sectionElements = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    let activeSectionId: string | null = null;
+
+    function updateScrollspy() {
+      if (sectionElements.length === 0) return;
+
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const headerOffset = 180;
+
+      let newActiveId: string | null = null;
+
+      // Si el usuario llega al final de la página (viendo Nosotros o Footer)
+      if (scrollY + windowHeight >= docHeight - 80) {
+        newActiveId = sectionIds[sectionIds.length - 1] ?? null;
+      } else {
+        for (const section of sectionElements) {
+          const rect = section.getBoundingClientRect();
+          const top = scrollY + rect.top - headerOffset;
+          const bottom = top + section.offsetHeight;
+
+          if (scrollY >= top && scrollY < bottom) {
+            newActiveId = section.id;
+            break;
+          }
+        }
+      }
+
+      if (newActiveId === activeSectionId) return;
+      activeSectionId = newActiveId;
+
+      // Actualizar enlaces desktop
+      desktopNavLinks.forEach((link) => {
+        const sid = link.getAttribute("data-section");
+        const isActive = sid === activeSectionId;
+        const indicator = link.querySelector(".nav-indicator");
+
+        if (isActive) {
+          link.classList.add("text-primary", "font-semibold");
+          link.classList.remove("text-neutral-300");
+          indicator?.classList.remove("scale-x-0");
+          indicator?.classList.add("scale-x-100");
+          link.setAttribute("aria-current", "page");
+        } else {
+          link.classList.remove("text-primary", "font-semibold");
+          link.classList.add("text-neutral-300");
+          indicator?.classList.add("scale-x-0");
+          indicator?.classList.remove("scale-x-100");
+          link.removeAttribute("aria-current");
+        }
+      });
+
+      // Actualizar enlaces mobile
+      mobileNavLinks.forEach((link) => {
+        const sid = link.getAttribute("data-section");
+        const isActive = sid === activeSectionId;
+        const dot = link.querySelector(".mobile-nav-dot");
+
+        if (isActive) {
+          link.classList.add("text-primary", "font-bold", "pl-1.5");
+          link.classList.remove("text-neutral-200");
+          dot?.classList.remove("opacity-0");
+          dot?.classList.add("opacity-100");
+          link.setAttribute("aria-current", "page");
+        } else {
+          link.classList.remove("text-primary", "font-bold", "pl-1.5");
+          link.classList.add("text-neutral-200");
+          dot?.classList.add("opacity-0");
+          dot?.classList.remove("opacity-100");
+          link.removeAttribute("aria-current");
+        }
+      });
+    }
 
     // Control del efecto flotante y encogimiento al hacer scroll (Comportamiento Fleect)
     function handleScroll() {
@@ -233,6 +338,8 @@ import { whatsappLink } from "@/lib/site";
           "shadow-sm",
         );
       }
+
+      updateScrollspy();
     }
 
     function toggleMenu(forceClose = false) {
