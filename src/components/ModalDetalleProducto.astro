@@ -49,6 +49,7 @@ const { maquinaria, telefono } = Astro.props;
   <!-- Contenedor de la Tarjeta del Modal -->
   <div
     data-purpose="modal-card"
+    data-lenis-prevent
     tabindex="-1"
     class="relative flex w-full flex-col md:flex-row gap-6 md:gap-8 rounded-2xl bg-white p-6 md:p-8 shadow-2xl border border-black/5 max-h-[92vh] md:max-h-none overflow-y-auto md:overflow-visible transition-all animate-fade-in focus:outline-none"
   >
@@ -318,6 +319,7 @@ const { maquinaria, telefono } = Astro.props;
 <!-- Lightbox a Pantalla Completa (Full-Screen Lightbox) para inspección técnica en terreno -->
 <dialog
   id="modal-lightbox-dialog"
+  data-lenis-prevent
   aria-label="Visor de imagen a pantalla completa"
   class="fixed inset-0 m-0 h-screen w-screen max-h-none max-w-none bg-black/95 text-white p-0 border-0 overflow-hidden backdrop:bg-black/95 z-[100]"
 >
@@ -820,6 +822,7 @@ const { maquinaria, telefono } = Astro.props;
 
       // Bloquear scroll de fondo y abrir dialog nativo
       document.body.style.overflow = "hidden";
+      (window as any).__lenis?.stop();
       dialog.showModal();
 
       // Evitar que el navegador autoenfoque la X al abrir el modal
@@ -837,6 +840,7 @@ const { maquinaria, telefono } = Astro.props;
 
     function cerrarModal() {
       document.body.style.overflow = "";
+      (window as any).__lenis?.start();
       dialog.close();
       if (disparadorAnterior) {
         if (disparadorAnterior.getAttribute("data-trigger-type") !== "photo") {
@@ -864,6 +868,7 @@ const { maquinaria, telefono } = Astro.props;
           lightboxBtnWhatsapp.href = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
         }
       }
+      (window as any).__lenis?.stop();
       lightboxDialog.showModal();
       sincronizarLightbox();
     }
@@ -871,6 +876,9 @@ const { maquinaria, telefono } = Astro.props;
     function cerrarLightbox() {
       if (!lightboxDialog) return;
       lightboxDialog.close();
+      if (!dialog.open) {
+        (window as any).__lenis?.start();
+      }
     }
 
     // Listeners de cierre del modal principal
@@ -888,6 +896,7 @@ const { maquinaria, telefono } = Astro.props;
     // Restaurar scroll si se cierra con tecla ESC nativa
     dialog.addEventListener("close", () => {
       document.body.style.overflow = "";
+      (window as any).__lenis?.start();
       if (disparadorAnterior) {
         if (disparadorAnterior.getAttribute("data-trigger-type") !== "photo") {
           disparadorAnterior.focus({ preventScroll: true });

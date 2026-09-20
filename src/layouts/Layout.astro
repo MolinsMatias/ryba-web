@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "lenis/dist/lenis.css";
 
 interface Props {
   title?: string;
@@ -7,8 +8,8 @@ interface Props {
 }
 
 const {
-  title = "RYBA Equipos | Arriendo de Maquinaria Pesada, Venta y Servicios",
-  description = "Flota propia con respaldo técnico, traslado incluido y operadores certificados para minería, construcción e industria.",
+  title = "RYBA Equipos | Venta, Arriendo y Servicios de Equipos para Faena",
+  description = "Equipos de respaldo energético, izaje e infraestructura con soporte técnico en terreno y logística a todo Chile para minería, construcción e industria.",
 } = Astro.props;
 ---
 
@@ -26,7 +27,7 @@ const {
     <meta name="description" content={description} />
     <meta
       name="keywords"
-      content="arriendo maquinaria pesada, RYBA Equipos, excavadora en arriendo, grúa horquilla, fletes industriales, montaje industrial"
+      content="venta y arriendo de equipos, RYBA Equipos, generador electrico arriendo, grua pluma camioneta, torre de iluminacion solar, techo solar contenedor, fletes industriales, montaje industrial"
     />
 
     <!-- Status Bar & Theme Color para Safari iOS y Chrome Android -->
@@ -41,7 +42,7 @@ const {
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="RYBA Equipos | Venta y arriendo de equipos"
+      content="RYBA Equipos | Venta, arriendo y servicios de equipos para faena"
     />
     <meta property="og:description" content={description} />
 
@@ -69,5 +70,64 @@ const {
   </head>
   <body class="font-sans antialiased bg-[#151515] text-foreground min-h-screen">
     <slot />
+
+    <!-- Script de Smooth Scroll con Lenis -->
+    <script>
+      import Lenis from "lenis";
+
+      declare global {
+        interface Window {
+          __lenis?: Lenis;
+        }
+      }
+
+      function setupSmoothScroll() {
+        if (window.__lenis) {
+          window.__lenis.destroy();
+        }
+
+        const lenis = new Lenis({
+          duration: 1.15,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          touchMultiplier: 1.2,
+        });
+
+        window.__lenis = lenis;
+
+        function raf(time: number) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Suavizado premium al hacer clic en enlaces ancla (#inicio, #catalogo, etc.)
+        const anchorLinks = document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]');
+        anchorLinks.forEach((anchor) => {
+          anchor.addEventListener("click", (e) => {
+            const href = anchor.getAttribute("href");
+            if (!href || href === "#") return;
+            const target = document.querySelector<HTMLElement>(href);
+            if (target) {
+              e.preventDefault();
+              lenis.scrollTo(target, {
+                offset: 0,
+                duration: 1.0,
+                onComplete: () => {
+                  target.setAttribute("tabindex", "-1");
+                  target.focus({ preventScroll: true });
+                },
+              });
+              if (history.pushState) {
+                history.pushState(null, "", href);
+              }
+            }
+          });
+        });
+      }
+
+      setupSmoothScroll();
+      document.addEventListener("astro:page-load", setupSmoothScroll);
+    </script>
   </body>
 </html>

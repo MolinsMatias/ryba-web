@@ -8,7 +8,7 @@ export function whatsappLink(mensaje: string) {
 export const empresa = {
   nombre: "RYBA Equipos",
   razonSocial: "RYBA Equipos SpA",
-  tagline: "Arriendo, venta y servicios de los equipos",
+  tagline: "Venta, arriendo y servicios de equipos para faena",
   mision:
     "Entregar soluciones integrales para la industria de la construcción, minería y energía mediante la venta y arriendo de equipos, complementados con servicios técnicos especializados, ofreciendo continuidad operativa, atención personalizada y respuesta ágil en terreno.",
   vision:
@@ -34,14 +34,14 @@ export const servicios: Servicio[] = [
     descripcion:
       "Logística y traslado de maquinaria y equipos a lo largo de todo Chile con camas bajas, permisos especiales y monitoreo permanente.",
     mensajeWhatsapp:
-      "Hola Rodrigo, deseo cotizar un servicio de flete/traslado de maquinaria.",
+      "Hola Rodrigo, deseo cotizar un servicio de flete/traslado de equipos y maquinaria.",
   },
   {
     titulo: "Montaje e Instalación",
     descripcion:
       "Montaje e instalación de galpones medianos y estructuras modulares en faena con cuadrilla especializada, rigging y personal certificado.",
     mensajeWhatsapp:
-      "Hola Rodrigo, deseo cotizar el montaje e instalación de galpones medianos en faena.",
+      "Hola Rodrigo, deseo cotizar el montaje e instalación de galpones medianos / estructuras modulares en faena.",
   },
 ];
 
@@ -116,21 +116,22 @@ export const catalogo: Equipo[] = [
       "/images/catalogo/generador-electrico/generador-azul1.webp",
       "/images/catalogo/generador-electrico/generador-azul2.webp",
     ],
+    certificaciones_chips: ["Insonorizado", "Diésel", "380V / 220V"],
     especificaciones: [
       {
-        label: "Operación",
-        valor: "Energía continua para faena",
-        icono: "capacidad",
+        label: "Conexión",
+        valor: "Trifásico / Monofásico (380V - 220V)",
+        icono: "potencia",
       },
       {
-        label: "Ventaja",
-        valor: "Energía continua en terreno",
-        icono: "potencia",
+        label: "Régimen",
+        valor: "Operación continua para faena",
+        icono: "capacidad",
       },
       { label: "Gabinete", valor: "Insonorizado Heavy Duty", icono: "peso" },
       {
         label: "Mantenimiento",
-        valor: "Respaldo preventivo incluido",
+        valor: "Respaldo preventivo en terreno",
         icono: "montaje",
       },
     ],
@@ -367,7 +368,7 @@ export const catalogo: Equipo[] = [
     ],
     certificaciones_chips: ["SEC", "IP67", "IK10", "IEC 61439"],
     mensaje_whatsapp:
-      "Hola Rodrigo, me interesa cotizar el equipo de Modular Solar Roof.",
+      "Hola Rodrigo, me interesa cotizar el Modular Solar Roof para contenedor de [20 / 40] pies (Venta / Arriendo).",
     imagenes: [
       "/images/catalogo/modular-solar-roof/producto-heroe-vision-final-de-la-solucion-portada.webp",
       "/images/catalogo/modular-solar-roof/detalle-posterior-y-accesos.webp",

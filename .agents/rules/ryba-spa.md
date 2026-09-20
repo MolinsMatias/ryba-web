@@ -40,6 +40,7 @@ El proyecto está construido bajo una arquitectura **Jamstack** enfocada en el m
 - **Control de Versiones:** Git & GitHub.
 - **Despliegue y Hosting:** Cloudflare Pages (CI/CD automatizado, CDN global, hosting gratuito).
 - **Dominio:** Gestión externa a través de NIC Chile (`.cl`).
+- **IMPORTANTE:** Esta prohibido el uso de any, siempre hay que correr el revisor de eslint y de typescript.
 
 ---
 
