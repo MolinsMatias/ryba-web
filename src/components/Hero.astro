@@ -26,7 +26,6 @@ const garantias = [
     class="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-between px-6 pt-28 pb-8 sm:pt-32 md:pt-36 lg:px-8 lg:pt-36"
   >
     <div class="flex flex-1 flex-col justify-center py-8 lg:py-16">
-      <!-- Kicker -->
       <div class="flex items-center gap-3">
         <span aria-hidden="true" class="h-0.5 w-8 bg-primary"></span>
         <span
@@ -36,7 +35,6 @@ const garantias = [
         </span>
       </div>
 
-      <!-- Headline: EQUIPOS OPERATIVOS, EN FAENA CUANDO LOS NECESITAS -->
       <h1
         class="mt-6 max-w-3xl font-display text-5xl leading-[0.92] font-bold tracking-tight text-background uppercase sm:text-6xl lg:text-7xl"
       >
@@ -45,7 +43,6 @@ const garantias = [
         los necesitas
       </h1>
 
-      <!-- Texto descriptivo -->
       <p
         class="mt-6 max-w-xl text-lg leading-relaxed text-secondary text-pretty"
       >
@@ -53,16 +50,33 @@ const garantias = [
         técnico en terreno y logística para minería, construcción e industria.
       </p>
 
-      <!-- Botón CTA principal de WhatsApp -->
-      <div class="mt-10">
+      <div class="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
         <WhatsAppCta
           mensaje="Hola Rodrigo, me interesa cotizar equipos para faena (venta / arriendo). ¿Me pueden asesorar?"
           label="Cotizar por WhatsApp"
         />
+        <a
+          href="#catalogo"
+          class="group inline-flex h-14 items-center justify-center gap-2.5 rounded-sm border border-white/20 bg-white/5 hover:bg-white/10 hover:border-primary/60 px-7 text-base font-display font-semibold tracking-wide uppercase text-white hover:text-primary transition-all duration-300 hover:-translate-y-1 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary backdrop-blur-xs"
+        >
+          <span>Ver Catálogo de Equipos</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="size-5 shrink-0 transition-transform duration-300 group-hover:translate-y-1"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </a>
       </div>
     </div>
 
-    <!-- Barra de Confianza Responsiva en Lista Nativa -->
     <ul
       class="flex flex-col gap-3 border-t border-background/15 py-6 text-sm text-secondary md:flex-row md:items-center md:gap-8"
     >

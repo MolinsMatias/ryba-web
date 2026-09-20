@@ -30,7 +30,6 @@ const {
       content="venta y arriendo de equipos, RYBA Equipos, generador electrico arriendo, grua pluma camioneta, torre de iluminacion solar, techo solar contenedor, fletes industriales, montaje industrial"
     />
 
-    <!-- Status Bar & Theme Color para Safari iOS y Chrome Android -->
     <meta name="theme-color" content="#151515" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta
@@ -38,7 +37,6 @@ const {
       content="black-translucent"
     />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
@@ -46,21 +44,33 @@ const {
     />
     <meta property="og:description" content={description} />
 
-    <!-- Favicons -->
-    <link
-      rel="icon"
-      href="/icon-light-32x32.png"
-      media="(prefers-color-scheme: light)"
-    />
-    <link
-      rel="icon"
-      href="/icon-dark-32x32.png"
-      media="(prefers-color-scheme: dark)"
-    />
-    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-    <link rel="apple-touch-icon" href="/apple-icon.png" />
+    <!-- Favicons & App Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/icon.svg" />
 
-    <!-- Google Fonts: Inter & Barlow Condensed -->
+    <!-- Apple Touch Icons (iOS Safari) -->
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+
+    <!-- Web App Manifest (PWA & Android) -->
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <!-- Microsoft Tiles & Windows -->
+    <meta name="msapplication-TileColor" content="#151515" />
+    <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png" />
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -71,7 +81,6 @@ const {
   <body class="font-sans antialiased bg-[#151515] text-foreground min-h-screen">
     <slot />
 
-    <!-- Script de Smooth Scroll con Lenis (exclusivo para desktop) -->
     <script>
       import Lenis from "lenis";
 
@@ -124,7 +133,8 @@ const {
         rafId = requestAnimationFrame(raf);
 
         // Suavizado premium exclusivo en desktop al hacer clic en enlaces ancla (#inicio, #catalogo, etc.)
-        const anchorLinks = document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]');
+        const anchorLinks =
+          document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]');
         anchorLinks.forEach((anchor) => {
           anchor.addEventListener("click", (e) => {
             // En móvil dejamos que el navegador navegue nativamente de forma instantánea

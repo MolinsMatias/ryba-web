@@ -91,7 +91,6 @@ export interface Equipo {
   mensaje_whatsapp: string;
   imagenes: string[];
   especificaciones: Especificacion[];
-  disponibilidad: Disponibilidad;
   variantes?: VarianteCapacidad[];
 }
 
@@ -135,14 +134,10 @@ export const catalogo: Equipo[] = [
         icono: "montaje",
       },
     ],
-    disponibilidad: {
-      estado: "Disponible para arriendo",
-      detalle: "Listo para trabajar en terreno",
-    },
   },
   {
     id: "grua-hidraulica",
-    nombre: "Grúas Hidráulicas Tipo Pluma",
+    nombre: "Grúas óleo hidráulicas",
     descripcion_corta:
       "Capacidades de 500kg, 1.000kg y 2.000kg. Montaje rápido y directo sobre camiones o camionetas de 5T.",
     modalidad: "Venta",
@@ -297,10 +292,6 @@ export const catalogo: Equipo[] = [
         ],
       },
     ],
-    disponibilidad: {
-      estado: "Disponible para venta",
-      detalle: "Entrega inmediata a todo Chile",
-    },
   },
   {
     id: "torre-iluminacion-solar",
@@ -345,10 +336,6 @@ export const catalogo: Equipo[] = [
         icono: "montaje",
       },
     ],
-    disponibilidad: {
-      estado: "Disponible para venta y arriendo",
-      detalle: "Listo para faena minera y construcción",
-    },
   },
   {
     id: "modular-solar-roof",
@@ -394,9 +381,5 @@ export const catalogo: Equipo[] = [
         icono: "montaje",
       },
     ],
-    disponibilidad: {
-      estado: "Disponible para venta y arriendo",
-      detalle: "Listo para trabajar en faena",
-    },
   },
 ];

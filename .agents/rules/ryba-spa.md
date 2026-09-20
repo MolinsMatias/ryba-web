@@ -17,7 +17,7 @@ El enfoque comercial no es solo proveer la máquina, sino garantizar **continuid
 El MVP se enfoca exclusivamente en los siguientes **4 equipos principales**:
 
 - **Generador Eléctrico:** Arriendo. (3 unidades). Respaldo de energía insonorizado para faenas.
-- **Grúas Hidráulicas (Tipo Pluma):** Venta. Capacidades de 500kg, 1.000kg y 2.000kg. Montaje en camionetas de 5T.
+- **Gruas Oleo Hidráulicas** Venta. Capacidades de 500kg, 1.000kg y 2.000kg. Montaje en camionetas de 5T.
 - **Torre de Iluminación Solar:** Venta y Arriendo. Mástil de 7m, 36h de autonomía. Enfoque en ahorro de diésel.
 - **Techo para Contenedor (Modular Solar Roof):** Venta y Arriendo. Estructura para contenedores de 20/40 pies.
 
