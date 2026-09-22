@@ -8,11 +8,11 @@ export function whatsappLink(mensaje: string) {
 export const empresa = {
   nombre: "RYBA Equipos",
   razonSocial: "RYBA Equipos SpA",
-  tagline: "Venta, arriendo y servicios de equipos para faena",
+  tagline: "Venta, arriendo y servicios de equipos para la construcción",
   mision:
     "Entregar soluciones integrales para la industria de la construcción, minería y energía mediante la venta y arriendo de equipos, complementados con servicios técnicos especializados, ofreciendo continuidad operativa, atención personalizada y respuesta ágil en terreno.",
   vision:
-    "Ser una empresa referente en Chile en la provisión de equipos de respaldo energético, izaje e infraestructura modular, reconocida por la calidad operativa, ahorro de costos en faena y el compromiso con nuestros clientes.",
+    "Ser una empresa referente en Chile en la provisión de equipos de respaldo energético, izaje e infraestructura modular, reconocida por la calidad operativa, ahorro de costos en la construcción y el compromiso con nuestros clientes.",
 };
 
 export type Servicio = {
@@ -25,23 +25,23 @@ export const servicios: Servicio[] = [
   {
     titulo: "Mantenimiento",
     descripcion:
-      "Preventivo y correctivo en terreno o taller, garantizando continuidad operativa de los equipos con repuestos originales y registro de cada intervención.",
+      "Preventivo y correctivo en terreno o taller, garantizando continuidad operativa de los equipos.",
     mensajeWhatsapp:
-      "Hola Rodrigo, deseo cotizar el servicio de mantenimiento para equipos en faena.",
+      "Hola Rodrigo, deseo cotizar el servicio de mantenimiento para equipos de construcción.",
   },
   {
     titulo: "Fletes",
     descripcion:
-      "Logística y traslado de maquinaria y equipos a lo largo de todo Chile con camas bajas, permisos especiales y monitoreo permanente.",
+      "Logística y traslado de maquinaria y equipos a lo largo de todo Chile.",
     mensajeWhatsapp:
       "Hola Rodrigo, deseo cotizar un servicio de flete/traslado de equipos y maquinaria.",
   },
   {
     titulo: "Montaje e Instalación",
     descripcion:
-      "Montaje e instalación de galpones medianos y estructuras modulares en faena con cuadrilla especializada, rigging y personal certificado.",
+      "Montaje e instalación de galpones livianos y estructuras modulares para la construcción.",
     mensajeWhatsapp:
-      "Hola Rodrigo, deseo cotizar el montaje e instalación de galpones medianos / estructuras modulares en faena.",
+      "Hola Rodrigo, deseo cotizar el montaje e instalación de galpones medianos / estructuras modulares para la construcción.",
   },
 ];
 
@@ -99,16 +99,16 @@ export const catalogo: Equipo[] = [
     id: "generador-electrico",
     nombre: "Generador Eléctrico",
     descripcion_corta:
-      "Respaldo de energía insonorizado para faenas y obras. Disponibilidad inmediata y energía continua en terreno.",
+      "Respaldo de energía insonorizado para obras y proyectos de construcción. Disponibilidad inmediata y energía continua en terreno.",
     modalidad: "Arriendo",
     tipo_modalidad: "arriendo",
     bullets_clave: [
-      "Generación y respaldo de energía continua en faena",
+      "Generación y respaldo de energía continua para la construcción",
       "Gabinete insonorizado para operación continua",
       "Soporte y mantenimiento preventivo en terreno",
     ],
     mensaje_whatsapp:
-      "Hola Rodrigo, me interesa cotizar el arriendo del Generador Eléctrico para faena. ¿Tienen disponibilidad inmediata?",
+      "Hola Rodrigo, me interesa cotizar el arriendo del Generador Eléctrico para la construcción. ¿Tienen disponibilidad inmediata?",
     imagenes: [
       "/images/catalogo/generador-electrico/generador-rojo.webp",
       "/images/catalogo/generador-electrico/generador-rojo-lateral.webp",
@@ -124,7 +124,7 @@ export const catalogo: Equipo[] = [
       },
       {
         label: "Régimen",
-        valor: "Operación continua para faena",
+        valor: "Operación continua para la construcción",
         icono: "capacidad",
       },
       { label: "Gabinete", valor: "Insonorizado Heavy Duty", icono: "peso" },
@@ -186,9 +186,9 @@ export const catalogo: Equipo[] = [
       {
         id: "500kg",
         nombre_tab: "500 kg",
-        subtitulo: "Versión ligera para pickup y faena liviana",
+        subtitulo: "Versión ligera para pickup y construcción liviana",
         mensaje_whatsapp:
-          "Hola Rodrigo, me interesa cotizar la Grúa Hidráulica Tipo Pluma capacidad 500 kg para camioneta/camión.",
+          "Hola Rodrigo, me interesa cotizar la Grúa Óleo Hidráulica Tipo Pluma capacidad 500 kg para camioneta/camión.",
         imagenes: [
           "/images/catalogo/grua-hidraulica/500kg/foto-de-portada.webp",
           "/images/catalogo/grua-hidraulica/500kg/foto-en-camioneta.webp",
@@ -225,7 +225,7 @@ export const catalogo: Equipo[] = [
         nombre_tab: "1.000 kg (1T)",
         subtitulo: "Versión intermedia estándar",
         mensaje_whatsapp:
-          "Hola Rodrigo, me interesa cotizar la Grúa Hidráulica Tipo Pluma capacidad 1.000 kg (1 Ton) para faena.",
+          "Hola Rodrigo, me interesa cotizar la Grúa Óleo Hidráulica Tipo Pluma capacidad 1.000 kg (1 Ton) para la construcción.",
         imagenes: [
           "/images/catalogo/grua-hidraulica/1000kg/foto-en-camioneta-1.webp",
           "/images/catalogo/grua-hidraulica/1000kg/foto-en-camioneta-2.webp",
@@ -262,9 +262,9 @@ export const catalogo: Equipo[] = [
       {
         id: "2000kg",
         nombre_tab: "2.000 kg (2T)",
-        subtitulo: "Versión reforzada para faena pesada",
+        subtitulo: "Versión reforzada para construcción pesada",
         mensaje_whatsapp:
-          "Hola Rodrigo, me interesa cotizar la Grúa Hidráulica Tipo Pluma capacidad 2.000 kg (2 Ton) para faena.",
+          "Hola Rodrigo, me interesa cotizar la Grúa Óleo Hidráulica Tipo Pluma capacidad 2.000 kg (2 Ton) para la construcción.",
         imagenes: [
           "/images/catalogo/grua-hidraulica/2000kg/foto-de-contexto-estilo-de-vida.webp",
         ],
@@ -298,8 +298,8 @@ export const catalogo: Equipo[] = [
     nombre: "Torre de Iluminación Solar",
     descripcion_corta:
       "Mástil retráctil de 7 metros movible en 360°. Ahorro anual de $7.560.000 en diésel y retorno en 12 meses.",
-    modalidad: "Venta y Arriendo",
-    tipo_modalidad: "mixto",
+    modalidad: "Venta",
+    tipo_modalidad: "venta",
     ahorro_destacado: {
       monto: "$7.560.000 / año",
       subtitulo: "ROI 12 Meses",
@@ -311,7 +311,7 @@ export const catalogo: Equipo[] = [
     ],
     certificaciones_chips: ["SEC", "IP66", "IK10", "IEC 61439"],
     mensaje_whatsapp:
-      "Hola Rodrigo, me interesa cotizar la Torre de Iluminación Solar (Venta / Arriendo) y conocer el cálculo de ahorro frente a torres diésel.",
+      "Hola Rodrigo, me interesa cotizar la Torre de Iluminación Solar.",
     imagenes: [
       "/images/catalogo/torre-iluminacion-solar/titulo-vision-frontal-y-producto-heroe.webp",
       "/images/catalogo/torre-iluminacion-solar/contexto-de-uso-y-preparacion.webp",
@@ -342,20 +342,20 @@ export const catalogo: Equipo[] = [
     nombre: "Modular Solar Roof",
     descripcion_corta:
       "Estructura modular para contenedores de 20 o 40 pies con fijación twist-lock. Ahorro anual de $18.396.000 en diésel y $0 en mantención.",
-    modalidad: "Venta y Arriendo",
-    tipo_modalidad: "mixto",
+    modalidad: "Venta",
+    tipo_modalidad: "venta",
     ahorro_destacado: {
       monto: "$18.396.000 / año",
       subtitulo: "$0 Mantención",
     },
     bullets_clave: [
-      "24 horas de autonomía continua en faena",
+      "24 horas de autonomía continua para la construcción",
       "Fijación rápida twist-lock para contenedores 20 y 40 ft",
       "Ahorro de combustible garantizado y $0 mantención",
     ],
     certificaciones_chips: ["SEC", "IP67", "IK10", "IEC 61439"],
     mensaje_whatsapp:
-      "Hola Rodrigo, me interesa cotizar el Modular Solar Roof para contenedor de [20 / 40] pies (Venta / Arriendo).",
+      "Hola Rodrigo, me interesa cotizar el Modular Solar Roof para contenedor.",
     imagenes: [
       "/images/catalogo/modular-solar-roof/producto-heroe-vision-final-de-la-solucion-portada.webp",
       "/images/catalogo/modular-solar-roof/detalle-posterior-y-accesos.webp",
