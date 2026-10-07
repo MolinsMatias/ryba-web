@@ -3,6 +3,7 @@
   "name": "ryba-web",
   "compatibility_date": "2026-08-24",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "not_found_handling": "404-page"
   }
 }
