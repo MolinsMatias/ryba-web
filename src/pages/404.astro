@@ -1,0 +1,82 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ArrowLeft from "lucide-astro/ArrowLeft";
+import ArrowRight from "lucide-astro/ArrowRight";
+---
+
+<Layout
+  title="404: Página no encontrada | RYBA Equipos"
+  description="La ruta o equipo que buscas no se encuentra disponible. Explora nuestro catálogo de respaldo energético, izaje e infraestructura en faena."
+>
+  <div
+    class="min-h-screen flex flex-col justify-between bg-[#151515] text-white"
+  >
+    <!-- Contenido principal 404 -->
+    <main
+      class="relative isolate flex-1 flex flex-col justify-center items-center px-6 py-16 sm:py-24 overflow-hidden"
+    >
+      <!-- Glow ambiental de fondo -->
+      <div
+        class="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center opacity-40"
+        aria-hidden="true"
+      >
+        <div
+          class="size-120 sm:size-150 rounded-full bg-primary/10 blur-[120px]"
+        >
+        </div>
+      </div>
+
+      <div class="mx-auto max-w-xl text-center flex flex-col items-center">
+        <!-- Badge y 404 industrial -->
+        <div class="relative mb-6 flex items-center justify-center">
+          <span
+            class="font-display text-8xl sm:text-9xl font-black tracking-tight text-white/4 select-none pointer-events-none leading-none"
+            aria-hidden="true"
+          >
+            404
+          </span>
+        </div>
+
+        <h1
+          class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white uppercase text-balance leading-[0.95]"
+        >
+          Página o equipo no disponible
+        </h1>
+
+        <p
+          class="mt-5 text-base sm:text-lg text-secondary/80 leading-relaxed text-pretty"
+        >
+          La ruta solicitada no existe o fue reubicada. Puedes regresar al
+          inicio o consultar nuestro catálogo de maquinaria disponible.
+        </p>
+
+        <!-- Botones de Acción -->
+        <div
+          class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full sm:w-auto"
+        >
+          <a
+            href="/"
+            class="group inline-flex h-13 sm:h-14 items-center justify-center gap-2.5 rounded-sm bg-primary px-7 text-base font-display font-semibold tracking-wide uppercase text-primary-foreground hover:bg-yellow-500 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            <ArrowLeft
+              class="size-5 shrink-0 transition-transform duration-300 group-hover:-translate-x-1"
+              aria-hidden="true"
+            />
+            <span>Volver al inicio</span>
+          </a>
+
+          <a
+            href="/#catalogo"
+            class="group inline-flex h-13 sm:h-14 items-center justify-center gap-2.5 rounded-sm border border-white/20 bg-white/5 px-7 text-base font-display font-semibold tracking-wide uppercase text-white hover:bg-white/10 hover:border-primary/60 hover:text-primary hover:-translate-y-0.5 transition-all duration-300 backdrop-blur-xs"
+          >
+            <span>Ver catálogo de equipos</span>
+            <ArrowRight
+              class="size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
+              aria-hidden="true"
+            />
+          </a>
+        </div>
+      </div>
+    </main>
+  </div>
+</Layout>

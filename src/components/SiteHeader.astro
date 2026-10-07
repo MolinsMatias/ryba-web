@@ -130,7 +130,6 @@ import { whatsappLink } from "@/lib/site";
     </button>
   </nav>
 
-  <!-- Mobile Dropdown Menu Card (Fleect Style Floating Menu) -->
   <div
     id="mobile-menu"
     class="pointer-events-none absolute left-4 right-4 bg-[#151515]/95 backdrop-blur-2xl border border-white/15 rounded-2xl overflow-hidden shadow-2xl md:hidden opacity-0 scale-95 -translate-y-3 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] invisible"
@@ -143,7 +142,9 @@ import { whatsappLink } from "@/lib/site";
         class="mobile-nav-link text-left text-neutral-200 hover:text-primary py-3.5 border-b border-white/10 transition-all flex items-center justify-between"
       >
         <span>Catálogo de Equipos</span>
-        <span class="mobile-nav-dot size-1.5 rounded-full bg-primary opacity-0 transition-opacity"></span>
+        <span
+          class="mobile-nav-dot size-1.5 rounded-full bg-primary opacity-0 transition-opacity"
+        ></span>
       </a>
       <a
         href="#servicios"
@@ -151,7 +152,9 @@ import { whatsappLink } from "@/lib/site";
         class="mobile-nav-link text-left text-neutral-200 hover:text-primary py-3.5 border-b border-white/10 transition-all flex items-center justify-between"
       >
         <span>Servicios</span>
-        <span class="mobile-nav-dot size-1.5 rounded-full bg-primary opacity-0 transition-opacity"></span>
+        <span
+          class="mobile-nav-dot size-1.5 rounded-full bg-primary opacity-0 transition-opacity"
+        ></span>
       </a>
       <a
         href="#nosotros"
@@ -159,7 +162,9 @@ import { whatsappLink } from "@/lib/site";
         class="mobile-nav-link text-left text-neutral-200 hover:text-primary py-3.5 transition-all flex items-center justify-between"
       >
         <span>Nosotros</span>
-        <span class="mobile-nav-dot size-1.5 rounded-full bg-primary opacity-0 transition-opacity"></span>
+        <span
+          class="mobile-nav-dot size-1.5 rounded-full bg-primary opacity-0 transition-opacity"
+        ></span>
       </a>
 
       <!-- Botón Cotizar dentro del menú hamburguesa -->
@@ -290,8 +295,6 @@ import { whatsappLink } from "@/lib/site";
         }
       });
     }
-
-    // Control del efecto flotante y encogimiento al hacer scroll (Comportamiento Fleect)
     function handleScroll() {
       const isScrolled = window.scrollY > 20 || isMenuOpen;
 
